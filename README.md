@@ -1,10 +1,13 @@
 # AuConchegante 🏠🐾
 
-A pet-friendly hosting platform connecting pet owners with trusted hosts in a homely environment.
+A pet-friendly hosting platform connecting pet owners with trusted hosts in a
+homely environment.
 
 ## About The Project
 
-AuConchegante is a platform that facilitates connections between pet owners needing temporary accommodation for their pets and hosts offering a family-friendly, welcoming environment.
+AuConchegante is a platform that facilitates connections between pet owners
+needing temporary accommodation for their pets and hosts offering a
+family-friendly, welcoming environment.
 
 ### Key Features
 
@@ -44,6 +47,10 @@ Messaging:
 Documentation:
   - OpenAPI
 ```
+
+### Entity Relationship Diagram
+
+![ERD](/erd.png)
 
 ### Architecture
 
