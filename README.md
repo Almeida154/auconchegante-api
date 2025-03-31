@@ -20,9 +20,10 @@ AuConchegante is a platform that facilitates connections between pet owners need
 ## Tech Stack
 
 ### Backend
+
 ```yaml
 Core:
-  - Java 24
+  - Java 21
   - Spring Boot 3.x
   - Spring Security
   - Spring Data JPA
@@ -151,5 +152,7 @@ AWS_SECRET_KEY=your-secret-key
 AWS_REGION=us-east-1
 S3_BUCKET=auconchegante-files
 ```
+
 ---
+
 With ❤️ by [David](https://github.com/almeida154) - davidalmeida154of@gmail.com
