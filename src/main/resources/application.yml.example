@@ -1,0 +1,2 @@
+jwt.secret=any-secret-key
+jwt.expiration=86400000

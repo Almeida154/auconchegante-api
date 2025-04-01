@@ -102,9 +102,6 @@ auconchegante-api/
 │   │       └── outgoing/        # Output ports
 │   │
 │   ├── application/             # Application Layer
-│   │   ├── port/
-│   │   │   ├── input/           # Input port implementations
-│   │   │   └── output/          # Output port implementations
 │   │   └── service/             # Application services
 │   │
 │   └── infrastructure/          # Infrastructure Layer (outside hexagon)
