@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  #  app:
+  #    build:
+  #      context: .
+  #      dockerfile: Dockerfile
+  #    ports:
+  #      - "8080:8080"
+  #      - "5005:5005"
+  #    volumes:
+  #      - .:/workspace/app
+  #      - maven_cache:/root/.m2
+  #    environment:
+  #      - SPRING_PROFILES_ACTIVE=dev
+  #      - SPRING_DEVTOOLS_REMOTE_SECRET=any-secret
+  #      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/auconchegante
+  #      - SPRING_DATASOURCE_USERNAME=postgres
+  #      - SPRING_DATASOURCE_PASSWORD=postgres
+  #      - JWT_SECRET=your_secret_key_here
+  #      - JWT_EXPIRATION=86400000
+  #    depends_on:
+  #      - db
+
+  db:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=auconchegante
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  maven_cache:
+  postgres_data:
