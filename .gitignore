@@ -35,3 +35,4 @@ build/
 .DS_Store
 
 src/main/resources/application.yml
+src/main/resources/db/flyway.properties

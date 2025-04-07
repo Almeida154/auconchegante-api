@@ -23,7 +23,7 @@ public class UserEntity {
     private final UUID id;
 
     @NotBlank
-    @Size(min = 3, max = 100)
+    @Size(min = 3, max = 180)
     @Column(nullable = false)
     private String name;
 
