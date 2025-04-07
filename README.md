@@ -85,8 +85,11 @@ cp .env.example .env
 # Start containers
 docker-compose up -d
 
+# Run migrations
+mvn flyway:migrate
+
 # Run the project
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 ## Project Structure
@@ -115,14 +118,6 @@ auconchegante-api/
 │           └── dto/             # DTOs
 ```
 
-## Contributing
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 ### Commit Standards
 
 ```
@@ -133,28 +128,9 @@ style: formatting
 refactor: code refactoring
 test: testing
 chore: maintenance
-```
 
-## Environment Variables
-
-```env.example
-# Server
-SERVER_PORT=8080
-
-# Database
-DB_URL=jdbc:postgresql://localhost:5432/auconchegante
-DB_USERNAME=postgres
-DB_PASSWORD=postgres
-
-# JWT
-JWT_SECRET=your-secret-key
-JWT_EXPIRATION=86400000
-
-# AWS
-AWS_ACCESS_KEY=your-access-key
-AWS_SECRET_KEY=your-secret-key
-AWS_REGION=us-east-1
-S3_BUCKET=auconchegante-files
+For example:
+feat(auth): add jwt authentication
 ```
 
 ---
