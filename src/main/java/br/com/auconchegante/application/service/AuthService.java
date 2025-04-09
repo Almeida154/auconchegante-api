@@ -1,5 +1,7 @@
 package br.com.auconchegante.application.service;
 
+import br.com.auconchegante.domain.exceptions.ForbiddenException;
+import br.com.auconchegante.domain.exceptions.NotFoundException;
 import br.com.auconchegante.domain.model.User;
 import br.com.auconchegante.domain.port.incoming.AuthUseCase;
 import br.com.auconchegante.domain.port.outgoing.persistence.UserProtocol;
@@ -16,10 +18,10 @@ public class AuthService implements AuthUseCase {
     @Override
     public Result execute(String email, String password) {
         User user = userProtocol.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found: " + email));
+                .orElseThrow(() -> new NotFoundException("User not found."));
 
         if (!user.getPassword().equals(password)) {
-            throw new RuntimeException("Invalid password");
+            throw new ForbiddenException("Invalid password.");
         }
 
         String accessToken = this.tokenProtocol.generate(user);

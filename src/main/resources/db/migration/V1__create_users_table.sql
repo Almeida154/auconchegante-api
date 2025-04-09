@@ -1,4 +1,3 @@
--- V1__create_users_table.sql
 CREATE TYPE USER_ROLE AS ENUM ('OWNER', 'HOST');
 
 CREATE TABLE users (
