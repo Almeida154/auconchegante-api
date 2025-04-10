@@ -18,5 +18,5 @@ spring:
       secret: any-secret
 
 jwt:
-  secret: ${JWT_SECRET:any-secret-key}
+  secret: ${JWT_SECRET:Any256BytesToken}
   expiration: ${JWT_EXPIRATION:86400000}

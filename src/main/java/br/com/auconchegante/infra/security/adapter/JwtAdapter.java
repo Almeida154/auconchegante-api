@@ -42,7 +42,7 @@ public class JwtAdapter implements TokenProtocol {
                     .parseClaimsJws(token);
             return true;
         } catch (JwtException e) {
-            throw new RuntimeException("Invalid JWT token");
+            throw new RuntimeException("Invalid JWT token.");
         }
     }
 

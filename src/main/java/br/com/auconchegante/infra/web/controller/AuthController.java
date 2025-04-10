@@ -21,7 +21,7 @@ public class AuthController {
 
         return ResponseEntity.ok(SignInResponse
                 .builder()
-                .accessToken("oi")
+                .accessToken(result.accessToken())
                 .build());
     }
 

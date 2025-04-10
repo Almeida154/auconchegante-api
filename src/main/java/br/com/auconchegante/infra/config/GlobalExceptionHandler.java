@@ -6,10 +6,15 @@ import br.com.auconchegante.domain.exceptions.NotFoundException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -30,12 +35,26 @@ public class GlobalExceptionHandler {
         ));
     }
 
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpectedError(Exception exception) {
         // TODO: Register with some Logger
+        System.out.println("-----------------");
+        System.out.println("Error: " + exception.getMessage());
+        System.out.println("Stack trace:");
+        exception.printStackTrace();
+        System.out.println("-----------------");
         return this.createErrorResponse(
                 "Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> validation(MethodArgumentNotValidException ex) {
+        String errorMessage = ex.getBindingResult().getAllErrors().stream()
+                .findFirst()
+                .map(ObjectError::getDefaultMessage)
+                .orElse("Validation error.");
+
+        return this.createErrorResponse(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ForbiddenException.class)
@@ -47,5 +66,4 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> notFound(AbstractException ex) {
         return this.createErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
-
 }
