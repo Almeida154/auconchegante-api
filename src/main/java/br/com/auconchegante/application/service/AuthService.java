@@ -3,7 +3,7 @@ package br.com.auconchegante.application.service;
 import br.com.auconchegante.domain.exceptions.ForbiddenException;
 import br.com.auconchegante.domain.exceptions.NotFoundException;
 import br.com.auconchegante.domain.model.User;
-import br.com.auconchegante.domain.port.incoming.AuthUseCase;
+import br.com.auconchegante.domain.port.incoming.SignInUseCase;
 import br.com.auconchegante.domain.port.outgoing.persistence.UserProtocol;
 import br.com.auconchegante.domain.port.outgoing.security.TokenProtocol;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class AuthService implements AuthUseCase {
+public class AuthService implements SignInUseCase {
     private final UserProtocol userProtocol;
     private final TokenProtocol tokenProtocol;
 

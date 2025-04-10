@@ -1,6 +1,6 @@
 package br.com.auconchegante.infra.web.controller;
 
-import br.com.auconchegante.domain.port.incoming.AuthUseCase;
+import br.com.auconchegante.domain.port.incoming.SignInUseCase;
 import br.com.auconchegante.infra.web.dto.auth.SignInRequest;
 import br.com.auconchegante.infra.web.dto.auth.SignInResponse;
 import jakarta.validation.Valid;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/auth")
 public class AuthController {
-    private final AuthUseCase authUseCase;
+    private final SignInUseCase authUseCase;
 
     @PostMapping("sign-in")
     ResponseEntity<SignInResponse> signIn(@Valid @RequestBody SignInRequest request) {
-        AuthUseCase.Result result = this.authUseCase
+        SignInUseCase.Result result = this.authUseCase
                 .execute(request.getEmail(), request.getPassword());
 
         return ResponseEntity.ok(SignInResponse
