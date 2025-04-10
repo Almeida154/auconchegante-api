@@ -1,4 +1,4 @@
-# AuConchegante 🏠🐾
+# AuConchegante 🏠
 
 A pet-friendly hosting platform connecting pet owners with trusted hosts in a
 homely environment.
