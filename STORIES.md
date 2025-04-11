@@ -40,6 +40,7 @@ That's a TODO list of all features by category.
   - ✅ Token generator / validator
   - ✅ Use case
   - ✅ Controller & DTOs
+  - [ ] Google OAuth
   - [ ] Swagger documentation
   - [ ] Unit tests
   - [ ] Integration tests
@@ -49,6 +50,7 @@ That's a TODO list of all features by category.
   - [ ] Password encrypter / decrypter
   - [ ] Use case
   - [ ] Controller & DTOs
+  - [ ] Google OAuth
   - [ ] Swagger documentation
   - [ ] Unit tests
   - [ ] Integration tests

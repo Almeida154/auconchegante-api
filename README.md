@@ -20,6 +20,8 @@ family-friendly, welcoming environment.
 - 📧 Email Notifications
 - 📲 Push Notifications (for auconchegante-app)
 
+Check detailed backlog in [Stories](STORIES.md) file.
+
 ## Tech Stack
 
 ### Backend
