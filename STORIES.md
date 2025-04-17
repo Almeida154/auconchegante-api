@@ -41,7 +41,7 @@ That's a TODO list of all features by category.
   - ✅ Use case
   - ✅ Controller & DTOs
   - [ ] Google OAuth
-  - [ ] Swagger documentation
+  - ✅ Swagger documentation
   - [ ] Unit tests
   - [ ] Integration tests
 
