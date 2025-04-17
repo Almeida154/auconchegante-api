@@ -1,6 +1,8 @@
 package br.com.auconchegante.unit.service;
 
 import br.com.auconchegante.application.service.AuthService;
+import br.com.auconchegante.domain.exceptions.ForbiddenException;
+import br.com.auconchegante.domain.exceptions.NotFoundException;
 import br.com.auconchegante.domain.model.User;
 import br.com.auconchegante.domain.port.outgoing.persistence.UserProtocol;
 import br.com.auconchegante.domain.port.outgoing.security.TokenProtocol;
@@ -15,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -33,13 +36,13 @@ public class AuthServiceTest {
     private static final String TEST_EMAIL = "trallallero@trallallá.com";
     private static final String TEST_PASSWORD = "any_password";
 
-    private User makeUser() {
+    private User makeUser(String email, String password) {
         return new User(
                 UUID.randomUUID(),
-                "Bombardillo Crocodillo",
+                "Bombardiro Crocodillo",
                 "12345678900",
-                TEST_EMAIL,
-                TEST_PASSWORD,
+                email,
+                password,
                 "11999999999",
                 UserRole.HOST,
                 "avatar.jpg",
@@ -48,31 +51,54 @@ public class AuthServiceTest {
         );
     }
 
+    private User makeUser() {
+        return makeUser(TEST_EMAIL, TEST_PASSWORD);
+    }
+
     @Test
     @DisplayName("Should call UserProtocol to find a user by e-mail")
     void callFindByEmail() {
         when(userProtocol.findByEmail(TEST_EMAIL))
-                .thenReturn(Optional.of(this.makeUser()));
+                .thenReturn(Optional.of(makeUser()));
 
-        this.authService.execute(TEST_EMAIL, TEST_PASSWORD);
+        authService.execute(TEST_EMAIL, TEST_PASSWORD);
+
         verify(userProtocol).findByEmail(TEST_EMAIL);
     }
 
     @Test
     @DisplayName("Should throw NotFoundException when given user is not found")
     void throwNotFoundException() {
-        assertThat(3 + 3).isEqualTo(6);
+        assertThatThrownBy(() -> {
+            authService.execute(TEST_EMAIL, TEST_PASSWORD);
+        })
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("User not found.");
     }
 
     @Test
     @DisplayName("Should throw ForbiddenException when password is wrong")
     void throwForbiddenException() {
-        assertThat(3 + 3).isEqualTo(6);
+        when(userProtocol.findByEmail(TEST_EMAIL))
+                .thenReturn(Optional.of(makeUser(TEST_EMAIL, "different_password")));
+
+        assertThatThrownBy(() -> {
+            this.authService.execute(TEST_EMAIL, TEST_PASSWORD);
+        })
+                .isInstanceOf(ForbiddenException.class)
+                .hasMessage("Invalid password.");
     }
 
     @Test
     @DisplayName("Should call TokenProtocol to generate an access token")
     void callGenerate() {
-        assertThat(3 + 3).isEqualTo(6);
+        User user = makeUser();
+
+        when(userProtocol.findByEmail(TEST_EMAIL))
+                .thenReturn(Optional.of(user));
+
+        authService.execute(TEST_EMAIL, TEST_PASSWORD);
+
+        verify(tokenProtocol).generate(user);
     }
 }
