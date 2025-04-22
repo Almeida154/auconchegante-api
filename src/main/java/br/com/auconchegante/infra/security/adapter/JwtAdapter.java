@@ -1,5 +1,6 @@
 package br.com.auconchegante.infra.security.adapter;
 
+import br.com.auconchegante.domain.exceptions.ForbiddenException;
 import br.com.auconchegante.domain.model.User;
 import br.com.auconchegante.domain.port.outgoing.security.TokenProtocol;
 import io.jsonwebtoken.JwtException;
@@ -42,7 +43,7 @@ public class JwtAdapter implements TokenProtocol {
                     .parseClaimsJws(token);
             return true;
         } catch (JwtException e) {
-            throw new RuntimeException("Invalid JWT token.");
+            throw new ForbiddenException("Invalid JWT token.");
         }
     }
 

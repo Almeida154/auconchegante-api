@@ -1,5 +1,6 @@
 package br.com.auconchegante.unit.infra.security.adapter;
 
+import br.com.auconchegante.domain.exceptions.ForbiddenException;
 import br.com.auconchegante.domain.model.User;
 import br.com.auconchegante.domain.type.UserRole;
 import br.com.auconchegante.infra.security.adapter.JwtAdapter;
@@ -100,7 +101,7 @@ public class JwtAdapterTest {
         String expiredToken = jwtAdapter.generate(user);
 
         assertThatThrownBy(() -> jwtAdapter.validate(expiredToken))
-                .isInstanceOf(RuntimeException.class)
+                .isInstanceOf(ForbiddenException.class)
                 .hasMessage("Invalid JWT token.");
     }
 }
