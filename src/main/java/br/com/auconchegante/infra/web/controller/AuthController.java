@@ -32,16 +32,4 @@ public class AuthController {
                 .accessToken(result.accessToken())
                 .build());
     }
-
-
-    @GetMapping("sign-up")
-    String signUp() {
-        return "signUp";
-    }
-
-    @GetMapping("forgot-password")
-    String forgotPassword() {
-        return "forgotPassword";
-    }
-
 }
