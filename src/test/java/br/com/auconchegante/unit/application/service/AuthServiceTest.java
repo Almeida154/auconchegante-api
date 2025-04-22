@@ -1,4 +1,4 @@
-package br.com.auconchegante.unit.service;
+package br.com.auconchegante.unit.application.service;
 
 import br.com.auconchegante.application.service.AuthService;
 import br.com.auconchegante.domain.exceptions.ForbiddenException;
@@ -19,7 +19,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
