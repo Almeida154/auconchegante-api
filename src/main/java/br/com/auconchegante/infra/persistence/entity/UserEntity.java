@@ -28,12 +28,12 @@ public class UserEntity {
     @Column(nullable = false)
     private String name;
 
-    @Email
     @NotBlank
     @Column(nullable = false, unique = true)
     private String cpf;
 
     @NotBlank
+    @Email
     @Size(min = 8)
     @Column(nullable = false, unique = true)
     private String email;
