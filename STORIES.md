@@ -43,7 +43,7 @@ That's a TODO list of all features by category.
   - [ ] Google OAuth
   - ✅ Swagger documentation
   - ✅ Unit tests
-  - [ ] Integration tests
+  - ✅ Integration tests
 
 - [ ] <b>Sign up endpoint</b>
 
