@@ -1,8 +1,12 @@
 package br.com.auconchegante.infra.web.controller;
 
+import br.com.auconchegante.domain.model.User;
 import br.com.auconchegante.domain.port.incoming.SignInUseCase;
+import br.com.auconchegante.domain.port.incoming.SignUpUseCase;
 import br.com.auconchegante.infra.web.dto.auth.SignInRequest;
 import br.com.auconchegante.infra.web.dto.auth.SignInResponse;
+import br.com.auconchegante.infra.web.dto.auth.SignUpRequest;
+import br.com.auconchegante.infra.web.dto.auth.SignUpResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,16 +22,38 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/auth")
 @Tag(name = "Authentication", description = "Authentication endpoints")
 public class AuthController {
-    private final SignInUseCase authUseCase;
+    private final SignInUseCase signInUseCase;
+    private final SignUpUseCase signUpUseCase;
 
     @Operation(summary = "Sign in user", description = "Authenticate user with email and password")
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SignInResponse.class)))
     @PostMapping("sign-in")
     ResponseEntity<SignInResponse> signIn(@Valid @RequestBody SignInRequest request) {
-        SignInUseCase.Result result = this.authUseCase
+        SignInUseCase.Result result = signInUseCase
                 .execute(request.getEmail(), request.getPassword());
 
         return ResponseEntity.ok(SignInResponse
+                .builder()
+                .accessToken(result.accessToken())
+                .build());
+    }
+
+    // TODO: Create endpoint for sign in a new host user. We gonna need to update its ROLE to HOST
+
+    @Operation(summary = "Sign up user", description = "Create and authenticate a new user")
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SignInResponse.class)))
+    @PostMapping("sign-up")
+    ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request) {
+        User user = new User();
+
+        user.setName(request.getName());
+        user.setCpf(request.getCpf());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+
+        SignUpUseCase.Result result = signUpUseCase.execute(user);
+
+        return ResponseEntity.ok(SignUpResponse
                 .builder()
                 .accessToken(result.accessToken())
                 .build());

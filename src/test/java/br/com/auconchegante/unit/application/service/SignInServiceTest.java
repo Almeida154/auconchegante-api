@@ -1,6 +1,6 @@
 package br.com.auconchegante.unit.application.service;
 
-import br.com.auconchegante.application.service.AuthService;
+import br.com.auconchegante.application.service.SignInService;
 import br.com.auconchegante.domain.exceptions.ForbiddenException;
 import br.com.auconchegante.domain.exceptions.NotFoundException;
 import br.com.auconchegante.domain.model.User;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class AuthServiceTest {
+public class SignInServiceTest {
     @Mock
     private UserProtocol userProtocol;
 
@@ -30,7 +30,7 @@ public class AuthServiceTest {
     private TokenProtocol tokenProtocol;
 
     @InjectMocks
-    private AuthService authService;
+    private SignInService signInService;
 
     private static final String TEST_EMAIL = "trallallero@trallallá.com";
     private static final String TEST_PASSWORD = "any_password";
@@ -60,7 +60,7 @@ public class AuthServiceTest {
         when(userProtocol.findByEmail(TEST_EMAIL))
                 .thenReturn(Optional.of(makeUser()));
 
-        authService.execute(TEST_EMAIL, TEST_PASSWORD);
+        signInService.execute(TEST_EMAIL, TEST_PASSWORD);
 
         verify(userProtocol).findByEmail(TEST_EMAIL);
     }
@@ -69,7 +69,7 @@ public class AuthServiceTest {
     @DisplayName("Should throw NotFoundException when given user is not found")
     void throwNotFoundException() {
         assertThatThrownBy(() -> {
-            authService.execute(TEST_EMAIL, TEST_PASSWORD);
+            signInService.execute(TEST_EMAIL, TEST_PASSWORD);
         })
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("User not found.");
@@ -82,7 +82,7 @@ public class AuthServiceTest {
                 .thenReturn(Optional.of(makeUser(TEST_EMAIL, "different_password")));
 
         assertThatThrownBy(() -> {
-            this.authService.execute(TEST_EMAIL, TEST_PASSWORD);
+            signInService.execute(TEST_EMAIL, TEST_PASSWORD);
         })
                 .isInstanceOf(ForbiddenException.class)
                 .hasMessage("Invalid password.");
@@ -96,7 +96,7 @@ public class AuthServiceTest {
         when(userProtocol.findByEmail(TEST_EMAIL))
                 .thenReturn(Optional.of(user));
 
-        authService.execute(TEST_EMAIL, TEST_PASSWORD);
+        signInService.execute(TEST_EMAIL, TEST_PASSWORD);
 
         verify(tokenProtocol).generate(user);
     }

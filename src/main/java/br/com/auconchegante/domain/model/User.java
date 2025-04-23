@@ -16,6 +16,10 @@ public class User {
     private double rating;
     private boolean active;
 
+    public User() {
+        this.id = UUID.randomUUID();
+    }
+
     public User(UUID id, String name, String cpf, String email, String password,
                 String phone, UserRole role, String avatarUrl, double rating, boolean active) {
         this.id = id;

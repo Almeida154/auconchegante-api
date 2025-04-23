@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class AuthService implements SignInUseCase {
+public class SignInService implements SignInUseCase {
     private final UserProtocol userProtocol;
     private final TokenProtocol tokenProtocol;
 
