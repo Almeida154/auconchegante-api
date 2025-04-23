@@ -33,12 +33,13 @@ public class UserRepositoryAdapterTest {
     private UserRepositoryAdapter repositoryAdapter;
 
     private static final String TEST_EMAIL = "test@example.com";
+    private static final String TEST_CPF = "12345678900";
 
     private User makeUser(String email) {
         return new User(
                 UUID.randomUUID(),
                 "Bombardiro Crocodillo",
-                "12345678900",
+                TEST_CPF,
                 email,
                 "any_password",
                 "11999999999",
@@ -65,6 +66,23 @@ public class UserRepositoryAdapterTest {
         Optional<User> result = repositoryAdapter.findByEmail(TEST_EMAIL);
 
         verify(jpaRepository).findByEmail(TEST_EMAIL);
+        verify(mapper).toDomain(userEntity);
+
+        assertThat(result).contains(userDomain);
+    }
+
+    @Test
+    @DisplayName("Should call findByCPF JPA user repository")
+    void findByCPF() {
+        UserEntity userEntity = new UserEntity();
+        User userDomain = makeUser();
+
+        when(jpaRepository.findByCpf(TEST_CPF)).thenReturn(Optional.of(userEntity));
+        when(mapper.toDomain(userEntity)).thenReturn(userDomain);
+
+        Optional<User> result = repositoryAdapter.findByCPF(TEST_CPF);
+
+        verify(jpaRepository).findByCpf(TEST_CPF);
         verify(mapper).toDomain(userEntity);
 
         assertThat(result).contains(userDomain);

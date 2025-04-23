@@ -1,6 +1,7 @@
 package br.com.auconchegante.unit.infra.config;
 
 import br.com.auconchegante.domain.exceptions.ForbiddenException;
+import br.com.auconchegante.domain.exceptions.InternalException;
 import br.com.auconchegante.domain.exceptions.NotFoundException;
 import br.com.auconchegante.infra.config.GlobalExceptionHandler;
 import org.junit.jupiter.api.DisplayName;
@@ -54,6 +55,21 @@ public class GlobalExceptionHandlerTest {
         assertThat(response.getBody())
                 .extracting(GlobalExceptionHandler.ErrorResponse::message)
                 .isEqualTo("Email is invalid.");
+    }
+
+    @Test
+    @DisplayName("Should handle InternalException")
+    void internalException() {
+        String errorMessage = "Something went wrong.";
+        InternalException exception = new InternalException(errorMessage);
+
+        ResponseEntity<GlobalExceptionHandler.ErrorResponse> response =
+                handler.internal(exception);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        assertThat(response.getBody())
+                .extracting(GlobalExceptionHandler.ErrorResponse::message)
+                .isEqualTo(errorMessage);
     }
 
     @Test

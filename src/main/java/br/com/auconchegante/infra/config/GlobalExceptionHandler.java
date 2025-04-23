@@ -1,8 +1,6 @@
 package br.com.auconchegante.infra.config;
 
-import br.com.auconchegante.domain.exceptions.AbstractException;
-import br.com.auconchegante.domain.exceptions.ForbiddenException;
-import br.com.auconchegante.domain.exceptions.NotFoundException;
+import br.com.auconchegante.domain.exceptions.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +51,16 @@ public class GlobalExceptionHandler {
                 .orElse("Validation error.");
 
         return this.createErrorResponse(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InternalException.class)
+    public ResponseEntity<ErrorResponse> internal(AbstractException ex) {
+        return this.createErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ErrorResponse> conflict(AbstractException ex) {
+        return this.createErrorResponse(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(ForbiddenException.class)

@@ -5,7 +5,7 @@ import br.com.auconchegante.domain.type.UserRole;
 import java.util.UUID;
 
 public class User {
-    private final UUID id;
+    private UUID id;
     private String name;
     private String cpf;
     private String email;
@@ -17,12 +17,11 @@ public class User {
     private boolean active;
 
     public User() {
-        this.id = UUID.randomUUID();
     }
 
     public User(UUID id, String name, String cpf, String email, String password,
                 String phone, UserRole role, String avatarUrl, double rating, boolean active) {
-        this.id = id;
+        setId(id);
         setName(name);
         setCpf(cpf);
         setEmail(email);
@@ -36,6 +35,10 @@ public class User {
 
     public UUID getId() {
         return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getName() {

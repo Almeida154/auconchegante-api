@@ -23,6 +23,12 @@ public class UserRepositoryAdapter implements UserProtocol {
     }
 
     @Override
+    public Optional<User> findByCPF(String cpf) {
+        return jpaRepository.findByCpf(cpf)
+                .map(mapper::toDomain);
+    }
+
+    @Override
     public Optional<User> save(User user) {
         UserEntity userEntity = jpaRepository.save(mapper.toEntity(user));
         return Optional.ofNullable(mapper.toDomain(userEntity));
