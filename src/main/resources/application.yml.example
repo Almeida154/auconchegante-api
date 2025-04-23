@@ -20,3 +20,14 @@ spring:
 jwt:
   secret: ${JWT_SECRET:Any256BytesToken}
   expiration: ${JWT_EXPIRATION:86400000}
+
+encryption:
+    secret: ${ENCRYPTION_SECRET:auconchegante-2025}
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
