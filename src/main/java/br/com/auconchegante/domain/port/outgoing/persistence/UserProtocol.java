@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface UserProtocol {
     Optional<User> findByEmail(String email);
+
+    Optional<User> save(User user);
 }
