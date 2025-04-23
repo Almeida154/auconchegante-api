@@ -41,19 +41,21 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column()
     private String phone;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
 
+    @Column()
     private String avatarUrl;
 
     @Column(columnDefinition = "DECIMAL(3,2) DEFAULT 0.0")
     private double rating;
 
     @Column(nullable = false)
-    private boolean active;
+    private boolean active = true;
 
     @CreationTimestamp
     @Column(updatable = false)
