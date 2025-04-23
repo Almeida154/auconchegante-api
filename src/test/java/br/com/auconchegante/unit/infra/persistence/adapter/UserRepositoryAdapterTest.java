@@ -69,4 +69,21 @@ public class UserRepositoryAdapterTest {
 
         assertThat(result).contains(userDomain);
     }
+
+    @Test
+    @DisplayName("Should call save JPA user repository")
+    void save() {
+        User userDomain = makeUser();
+        UserEntity userEntity = mapper.toEntity(userDomain);
+
+        when(jpaRepository.save(userEntity)).thenReturn(userEntity);
+        when(mapper.toDomain(userEntity)).thenReturn(userDomain);
+
+        Optional<User> result = repositoryAdapter.save(userDomain);
+
+        verify(jpaRepository).save(userEntity);
+        verify(mapper).toDomain(userEntity);
+
+        assertThat(result).contains(userDomain);
+    }
 }
