@@ -41,7 +41,7 @@ public class AuthController {
     // TODO: Create endpoint for sign in a new host user. We gonna need to update its ROLE to HOST
 
     @Operation(summary = "Sign up user", description = "Create and authenticate a new user")
-    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SignInResponse.class)))
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SignUpResponse.class)))
     @PostMapping("sign-up")
     ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request) {
         User user = new User();

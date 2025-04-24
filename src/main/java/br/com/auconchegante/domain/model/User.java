@@ -2,6 +2,7 @@ package br.com.auconchegante.domain.model;
 
 import br.com.auconchegante.domain.type.UserRole;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class User {
@@ -111,5 +112,17 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(cpf, user.cpf) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, cpf, email);
     }
 }

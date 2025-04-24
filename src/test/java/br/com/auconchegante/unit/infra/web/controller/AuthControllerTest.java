@@ -1,6 +1,8 @@
 package br.com.auconchegante.unit.infra.web.controller;
 
+import br.com.auconchegante.domain.model.User;
 import br.com.auconchegante.domain.port.incoming.SignInUseCase;
+import br.com.auconchegante.domain.port.incoming.SignUpUseCase;
 import br.com.auconchegante.infra.web.controller.AuthController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,6 +26,9 @@ public class AuthControllerTest {
     @Mock
     SignInUseCase signInUseCase;
 
+    @Mock
+    SignUpUseCase signUpUseCase;
+
     @InjectMocks
     AuthController authController;
 
@@ -32,6 +37,15 @@ public class AuthControllerTest {
     private static final String TEST_EMAIL = "test@example.com";
     private static final String TEST_PASSWORD = "password123";
     private static final String TEST_ACCESS_TOKEN = "test.jwt.token";
+
+    private User makeUser() {
+        User user = new User();
+        user.setName("John Doe");
+        user.setCpf("53509123808");
+        user.setEmail("david.santos@gmail.com");
+        user.setPassword(TEST_PASSWORD);
+        return user;
+    }
 
     @BeforeEach
     void setUp() {
@@ -60,5 +74,31 @@ public class AuthControllerTest {
                 .andExpect(jsonPath("$.accessToken").value(TEST_ACCESS_TOKEN));
 
         verify(signInUseCase).execute(TEST_EMAIL, TEST_PASSWORD);
+    }
+
+    @Test()
+    @DisplayName("Should call sign up use case and return a token")
+    void signUp() throws Exception {
+        User user = makeUser();
+
+        SignUpUseCase.Result token = new SignUpUseCase.Result(TEST_ACCESS_TOKEN);
+        when(signUpUseCase.execute(user)).thenReturn(token);
+
+        String requestBody = """
+                {
+                    "email": "%s",
+                    "password": "%s",
+                    "cpf": "%s",
+                    "name": "%s"
+                }
+                """.formatted(user.getEmail(), user.getPassword(), user.getCpf(), user.getName());
+
+        mockMvc.perform(post("/api/auth/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accessToken").value(TEST_ACCESS_TOKEN));
+
+        verify(signUpUseCase).execute(user);
     }
 }
