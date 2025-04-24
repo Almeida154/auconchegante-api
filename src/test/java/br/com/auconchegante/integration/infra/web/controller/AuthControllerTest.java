@@ -32,30 +32,32 @@ public class AuthControllerTest {
 
     private static final String TEST_EMAIL = "test@example.com";
     private static final String TEST_PASSWORD = "password123";
+    private static final String TEST_CPF = "00546117090";
+    private static final String TEST_NAME = "John Doe";
 
     @BeforeEach
     void setUp() {
         userRepository.deleteAll();
     }
 
+    private UserEntity createTestUser() {
+        UserEntity user = new UserEntity();
+        user.setName(TEST_NAME);
+        user.setEmail(TEST_EMAIL);
+        user.setPassword(TEST_PASSWORD);
+        user.setCpf(TEST_CPF);
+        user.setPhone("11999999999");
+        user.setRole(UserRole.HOST);
+        user.setAvatarUrl("avatar.jpg");
+        user.setRating(5.0);
+        user.setActive(true);
+
+        return userRepository.save(user);
+    }
+
     @Nested
     @DisplayName("sign-in")
     class SignIn {
-        private UserEntity createTestUser() {
-            UserEntity user = new UserEntity();
-            user.setName("Test User");
-            user.setEmail(TEST_EMAIL);
-            user.setPassword(TEST_PASSWORD);
-            user.setCpf("12345678900");
-            user.setPhone("11999999999");
-            user.setRole(UserRole.HOST);
-            user.setAvatarUrl("avatar.jpg");
-            user.setRating(5.0);
-            user.setActive(true);
-
-            return userRepository.save(user);
-        }
-
         private String makeRequestBody(String email, String password) {
             return """
                     {
@@ -75,7 +77,7 @@ public class AuthControllerTest {
                             .content(requestBody))
                     .andExpect(status().isBadRequest())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$.message").isNotEmpty());
+                    .andExpect(jsonPath("$.message").value("Invalid e-mail."));
         }
 
         @Test
@@ -90,7 +92,7 @@ public class AuthControllerTest {
                             .content(requestBody))
                     .andExpect(status().isForbidden())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$.message").isNotEmpty());
+                    .andExpect(jsonPath("$.message").value("Invalid password."));
         }
 
         @Test
@@ -112,24 +114,76 @@ public class AuthControllerTest {
     @Nested
     @DisplayName("sign-up")
     class SignUp {
+        private String makeRequestBody(String email, String password, String cpf, String name) {
+            return """
+                    {
+                        "email": "%s",
+                        "password": "%s",
+                        "cpf": "%s",
+                        "name": "%s"
+                    }
+                    """.formatted(email, password, cpf, name);
+        }
+
+
         @Test
         @DisplayName("Should return bad request when an invalid e-mail is provided")
         void signUpBadRequestForEmail() throws Exception {
+            String requestBody =
+                    makeRequestBody("invalid-email-format", TEST_PASSWORD, TEST_CPF, TEST_NAME);
+
+            mockMvc.perform(post("/api/auth/sign-up")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.message").value("Invalid e-mail."));
         }
 
         @Test
-        @DisplayName("Should return conflict if e-mail exists")
+        @DisplayName("Should return conflict when e-mail exists")
         void signConflictForEmail() throws Exception {
+            createTestUser();
+
+            String requestBody =
+                    makeRequestBody(TEST_EMAIL, TEST_PASSWORD, TEST_CPF, TEST_NAME);
+
+            mockMvc.perform(post("/api/auth/sign-up")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(status().isConflict())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.message").value("E-mail already in use."));
         }
 
         @Test
         @DisplayName("Should return bad request when an invalid CPF is provided")
         void signUpBadRequestForCPF() throws Exception {
+            String requestBody =
+                    makeRequestBody(TEST_EMAIL, TEST_PASSWORD, "invalid-cpf-format", TEST_NAME);
+
+            mockMvc.perform(post("/api/auth/sign-up")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.message").value("Invalid CPF."));
         }
 
         @Test
-        @DisplayName("Should return conflict if CPF exists")
+        @DisplayName("Should return conflict when CPF exists")
         void signConflictForCPF() throws Exception {
+            createTestUser();
+
+            String requestBody =
+                    makeRequestBody("any@other.com", TEST_PASSWORD, TEST_CPF, TEST_NAME);
+
+            mockMvc.perform(post("/api/auth/sign-up")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(status().isConflict())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.message").value("CPF already in use."));
         }
 
         @Test

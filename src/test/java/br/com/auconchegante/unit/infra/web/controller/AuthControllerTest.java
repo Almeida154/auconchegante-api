@@ -41,7 +41,7 @@ public class AuthControllerTest {
     private User makeUser() {
         User user = new User();
         user.setName("John Doe");
-        user.setCpf("53509123808");
+        user.setCpf("00546117090");
         user.setEmail("david.santos@gmail.com");
         user.setPassword(TEST_PASSWORD);
         return user;
