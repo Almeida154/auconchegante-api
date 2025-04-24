@@ -12,8 +12,8 @@ That's a TODO list of all features by category.
 - ✅ Migration strategy
 - ✅ Error handling
 - ✅ Swagger configuration
-- [ ] Unit tests setup
-- [ ] Integration tests setup
+- ✅ Unit tests setup
+- ✅ Integration tests setup
 
 <br/>
 
@@ -47,12 +47,12 @@ That's a TODO list of all features by category.
 
 - [ ] <b>Sign up endpoint</b>
 
-  - [ ] Password encrypter / decrypter
-  - [ ] Use case
-  - [ ] Controller & DTOs
+  - ✅ Password encrypter / decrypter
+  - ✅ Use case
+  - ✅ Controller & DTOs
   - [ ] Google OAuth
   - [ ] Swagger documentation
-  - [ ] Unit tests
+  - ✅ Unit tests
   - [ ] Integration tests
 
 - [ ] <b>Forgot password endpoint</b>
