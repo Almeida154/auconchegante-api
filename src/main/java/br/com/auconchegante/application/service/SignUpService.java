@@ -29,10 +29,7 @@ public class SignUpService implements SignUpUseCase {
         String encryptedPassword = encryptionProtocol.encrypt(user.getPassword());
         user.setPassword(encryptedPassword);
         user.setRole(UserRole.OWNER);
-
-        System.out.println("OIIIIII");
-        System.out.println(user.toString());
-
+        
         User created = userProtocol.save(user)
                 .orElseThrow(() -> new InternalException("Something went wrong trying to create a new user."));
 
