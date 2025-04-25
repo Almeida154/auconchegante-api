@@ -60,7 +60,7 @@ That's a TODO list of all features by category.
     - ✅ PasswordResetCodes migration
     - ✅ PasswordResetCode domain model and entity
     - ✅ PasswordResetCode object mapper
-    - [ ] PasswordResetCode repository
+    - ✅ PasswordResetCode repository
     - [ ] Code generator
     - [ ] Email delivery
     - [ ] Use case
