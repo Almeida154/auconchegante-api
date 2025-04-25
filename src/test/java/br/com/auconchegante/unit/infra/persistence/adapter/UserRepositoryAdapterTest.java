@@ -55,7 +55,7 @@ public class UserRepositoryAdapterTest {
     }
 
     @Test
-    @DisplayName("Should call findByEmail JPA user repository")
+    @DisplayName("Should call findByEmail")
     void findByEmail() {
         UserEntity userEntity = new UserEntity();
         User userDomain = makeUser();
@@ -72,7 +72,7 @@ public class UserRepositoryAdapterTest {
     }
 
     @Test
-    @DisplayName("Should call findByCPF JPA user repository")
+    @DisplayName("Should call findByCPF")
     void findByCPF() {
         UserEntity userEntity = new UserEntity();
         User userDomain = makeUser();
@@ -89,7 +89,7 @@ public class UserRepositoryAdapterTest {
     }
 
     @Test
-    @DisplayName("Should call save JPA user repository")
+    @DisplayName("Should call save")
     void save() {
         User userDomain = makeUser();
         UserEntity userEntity = mapper.toEntity(userDomain);

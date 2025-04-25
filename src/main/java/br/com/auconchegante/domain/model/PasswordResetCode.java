@@ -1,6 +1,7 @@
 package br.com.auconchegante.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class PasswordResetCode {
@@ -59,5 +60,17 @@ public class PasswordResetCode {
 
     public void setExpiresAt(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        PasswordResetCode that = (PasswordResetCode) o;
+        return Objects.equals(id, that.id) && Objects.equals(code, that.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, code);
     }
 }

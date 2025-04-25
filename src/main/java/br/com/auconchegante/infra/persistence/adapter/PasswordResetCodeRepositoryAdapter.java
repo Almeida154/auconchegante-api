@@ -18,14 +18,9 @@ public class PasswordResetCodeRepositoryAdapter implements PasswordResetCodeProt
     private final PasswordResetCodeMapper mapper;
 
     @Override
-    public Optional<PasswordResetCode> save(String email, String code) {
+    public Optional<PasswordResetCode> save(PasswordResetCode passwordResetCode) {
         PasswordResetCodeEntity entity = jpaRepository
-                .save(PasswordResetCodeEntity
-                        .builder()
-                        .email(email)
-                        .code(code)
-                        .build());
-
+                .save(mapper.toEntity(passwordResetCode));
         return Optional.ofNullable(mapper.toDomain(entity));
     }
 
