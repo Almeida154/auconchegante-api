@@ -5,7 +5,7 @@ import br.com.auconchegante.domain.type.UserRole;
 import java.util.Objects;
 import java.util.UUID;
 
-public class User {
+class User {
     private UUID id;
     private String name;
     private String cpf;

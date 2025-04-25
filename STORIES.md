@@ -58,7 +58,7 @@ That's a TODO list of all features by category.
 - [ ] <b>Forgot password endpoint</b>
 
     - ✅ PasswordResetCodes migration
-    - [ ] PasswordResetCode domain model
+    - ✅ PasswordResetCode domain model
     - [ ] PasswordResetCode object mapper
     - [ ] PasswordResetCode repository
     - [ ] Code generator
