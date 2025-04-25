@@ -60,7 +60,7 @@ public class AuthController {
 
     @Operation(summary = "Generate password recovery code", description = "Send a generated code to provided e-mail")
     @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = SignUpResponse.class)))
-    @GetMapping("forgot-password")
+    @PostMapping("forgot-password")
     ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
         forgotPasswordUseCase.execute(request.getEmail());
         return ResponseEntity.noContent().build();
