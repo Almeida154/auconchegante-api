@@ -1,12 +1,10 @@
 package br.com.auconchegante.infra.web.controller;
 
 import br.com.auconchegante.domain.model.User;
+import br.com.auconchegante.domain.port.incoming.ForgotPasswordUseCase;
 import br.com.auconchegante.domain.port.incoming.SignInUseCase;
 import br.com.auconchegante.domain.port.incoming.SignUpUseCase;
-import br.com.auconchegante.infra.web.dto.auth.SignInRequest;
-import br.com.auconchegante.infra.web.dto.auth.SignInResponse;
-import br.com.auconchegante.infra.web.dto.auth.SignUpRequest;
-import br.com.auconchegante.infra.web.dto.auth.SignUpResponse;
+import br.com.auconchegante.infra.web.dto.auth.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final SignInUseCase signInUseCase;
     private final SignUpUseCase signUpUseCase;
+    private final ForgotPasswordUseCase forgotPasswordUseCase;
 
     @Operation(summary = "Sign in user", description = "Authenticate user with email and password")
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SignInResponse.class)))
@@ -57,5 +56,13 @@ public class AuthController {
                 .builder()
                 .accessToken(result.accessToken())
                 .build());
+    }
+
+    @Operation(summary = "Generate password recovery code", description = "Send a generated code to provided e-mail")
+    @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = SignUpResponse.class)))
+    @GetMapping("forgot-password")
+    ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        forgotPasswordUseCase.execute(request.getEmail());
+        return ResponseEntity.noContent().build();
     }
 }

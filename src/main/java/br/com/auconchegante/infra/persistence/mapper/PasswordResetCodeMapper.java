@@ -2,7 +2,9 @@ package br.com.auconchegante.infra.persistence.mapper;
 
 import br.com.auconchegante.domain.model.PasswordResetCode;
 import br.com.auconchegante.infra.persistence.entity.PasswordResetCodeEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PasswordResetCodeMapper {
     public PasswordResetCode toDomain(PasswordResetCodeEntity entity) {
         if (entity == null) return null;

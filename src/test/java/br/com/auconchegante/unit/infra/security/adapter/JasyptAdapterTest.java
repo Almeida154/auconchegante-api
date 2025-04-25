@@ -1,14 +1,12 @@
 package br.com.auconchegante.unit.infra.security.adapter;
 
 import br.com.auconchegante.infra.security.adapter.JasyptAdapter;
-import br.com.auconchegante.infra.security.adapter.JwtAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class JasyptAdapterTest {
     JasyptAdapter jasyptAdapter;

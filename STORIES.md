@@ -61,7 +61,7 @@ That's a TODO list of all features by category.
     - ✅ PasswordResetCode domain model and entity
     - ✅ PasswordResetCode object mapper
     - ✅ PasswordResetCode repository
-    - [ ] Code generator
+    - ✅ Code generator
     - [ ] Email delivery
     - [ ] Use case
     - [ ] Controller & DTOs
