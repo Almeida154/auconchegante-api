@@ -33,64 +33,64 @@ That's a TODO list of all features by category.
 
 - [ ] <b>Sign in endpoint</b>
 
-  - ✅ Users table migration
-  - ✅ User domain model
-  - ✅ User object mapper
-  - ✅ User repository
-  - ✅ Token generator / validator
-  - ✅ Use case
-  - ✅ Controller & DTOs
-  - [ ] Google OAuth
-  - ✅ Swagger documentation
-  - ✅ Unit tests
-  - ✅ Integration tests
+    - ✅ Users table migration
+    - ✅ User domain model
+    - ✅ User object mapper
+    - ✅ User repository
+    - ✅ Token generator / validator
+    - ✅ Use case
+    - ✅ Controller & DTOs
+    - [ ] Google OAuth
+    - ✅ Swagger documentation
+    - ✅ Unit tests
+    - ✅ Integration tests
 
 - [ ] <b>Sign up endpoint</b>
 
-  - ✅ Password encrypter / decrypter
-  - ✅ Use case
-  - ✅ Controller & DTOs
-  - [ ] Google OAuth
-  - [ ] Swagger documentation
-  - ✅ Unit tests
-  - [ ] Integration tests
+    - ✅ Password encrypter / decrypter
+    - ✅ Use case
+    - ✅ Controller & DTOs
+    - [ ] Google OAuth
+    - ✅ Swagger documentation
+    - ✅ Unit tests
+    - ✅ Integration tests
 
 - [ ] <b>Forgot password endpoint</b>
 
-  - [ ] PasswordResetCodes migration
-  - [ ] PasswordResetCode domain model
-  - [ ] PasswordResetCode object mapper
-  - [ ] PasswordResetCode repository
-  - [ ] Code generator
-  - [ ] Email delivery
-  - [ ] Use case
-  - [ ] Controller & DTOs
-  - [ ] Swagger documentation
-  - [ ] Unit tests
-  - [ ] Integration tests
+    - ✅ PasswordResetCodes migration
+    - [ ] PasswordResetCode domain model
+    - [ ] PasswordResetCode object mapper
+    - [ ] PasswordResetCode repository
+    - [ ] Code generator
+    - [ ] Email delivery
+    - [ ] Use case
+    - [ ] Controller & DTOs
+    - [ ] Swagger documentation
+    - [ ] Unit tests
+    - [ ] Integration tests
 
 - [ ] <b>Reset password endpoint</b>
 
-  - [ ] Use case
-  - [ ] Controller & DTOs
-  - [ ] Swagger documentation
-  - [ ] Unit tests
-  - [ ] Integration tests
+    - [ ] Use case
+    - [ ] Controller & DTOs
+    - [ ] Swagger documentation
+    - [ ] Unit tests
+    - [ ] Integration tests
 
 - [ ] <b>Refresh token endpoint</b>
 
-  - Idk yet
+    - Idk yet
 
 - [ ] <b>Auth Middleware</b>
 
-  - [ ] Auth validator
-  - [ ] Unit tests
-  - [ ] Integration tests
+    - [ ] Auth validator
+    - [ ] Unit tests
+    - [ ] Integration tests
 
 - [ ] <b>Role Middleware</b>
-  - [ ] Role validator
-  - [ ] Unit tests
-  - [ ] Integration tests
+    - [ ] Role validator
+    - [ ] Unit tests
+    - [ ] Integration tests
 
 <br/>
 
