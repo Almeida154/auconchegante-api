@@ -1,5 +1,6 @@
 package br.com.auconchegante.domain.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -7,13 +8,13 @@ public class PasswordResetCode {
     private UUID id;
     private String email;
     private String code;
-    private Date usedAt;
-    private Date expiresAt;
+    private LocalDateTime usedAt;
+    private LocalDateTime expiresAt;
 
     public PasswordResetCode() {
     }
-    
-    public PasswordResetCode(UUID id, String email, String code, Date usedAt, Date expiresAt) {
+
+    public PasswordResetCode(UUID id, String email, String code, LocalDateTime usedAt, LocalDateTime expiresAt) {
         this.id = id;
         this.email = email;
         this.code = code;
@@ -45,19 +46,19 @@ public class PasswordResetCode {
         this.code = code;
     }
 
-    public Date getUsedAt() {
+    public LocalDateTime getUsedAt() {
         return usedAt;
     }
 
-    public void setUsedAt(Date usedAt) {
+    public void setUsedAt(LocalDateTime usedAt) {
         this.usedAt = usedAt;
     }
 
-    public Date getExpiresAt() {
+    public LocalDateTime getExpiresAt() {
         return expiresAt;
     }
 
-    public void setExpiresAt(Date expiresAt) {
+    public void setExpiresAt(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
     }
 }

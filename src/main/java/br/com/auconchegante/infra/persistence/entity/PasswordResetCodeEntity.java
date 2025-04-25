@@ -39,11 +39,11 @@ public class PasswordResetCodeEntity {
     private String code;
 
     @Column()
-    private Date usedAt;
+    private LocalDateTime usedAt;
 
     @NotBlank
     @Column(nullable = false)
-    private Date expiresAt;
+    private LocalDateTime expiresAt;
 
     @CreationTimestamp
     @Column(updatable = false)
