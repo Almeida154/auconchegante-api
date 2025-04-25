@@ -34,7 +34,7 @@ That's a TODO list of all features by category.
 - [ ] <b>Sign in endpoint</b>
 
     - ✅ Users table migration
-    - ✅ User domain model
+    - ✅ User domain model and entity
     - ✅ User object mapper
     - ✅ User repository
     - ✅ Token generator / validator
@@ -58,7 +58,7 @@ That's a TODO list of all features by category.
 - [ ] <b>Forgot password endpoint</b>
 
     - ✅ PasswordResetCodes migration
-    - ✅ PasswordResetCode domain model
+    - ✅ PasswordResetCode domain model and entity
     - [ ] PasswordResetCode object mapper
     - [ ] PasswordResetCode repository
     - [ ] Code generator

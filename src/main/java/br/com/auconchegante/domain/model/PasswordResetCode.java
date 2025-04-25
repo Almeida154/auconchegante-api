@@ -3,7 +3,7 @@ package br.com.auconchegante.domain.model;
 import java.util.Date;
 import java.util.UUID;
 
-class PasswordResetCode {
+public class PasswordResetCode {
     private UUID id;
     private String email;
     private String code;
