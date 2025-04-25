@@ -24,7 +24,8 @@ public class UserMapper {
 
     public UserEntity toEntity(User domain) {
         if (domain == null) return null;
-        return UserEntity.builder()
+        return UserEntity
+                .builder()
                 .id(domain.getId())
                 .name(domain.getName())
                 .cpf(domain.getCpf())

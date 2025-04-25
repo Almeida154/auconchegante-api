@@ -10,6 +10,17 @@ public class PasswordResetCode {
     private Date usedAt;
     private Date expiresAt;
 
+    public PasswordResetCode() {
+    }
+    
+    public PasswordResetCode(UUID id, String email, String code, Date usedAt, Date expiresAt) {
+        this.id = id;
+        this.email = email;
+        this.code = code;
+        this.usedAt = usedAt;
+        this.expiresAt = expiresAt;
+    }
+
     public UUID getId() {
         return id;
     }
