@@ -1,6 +1,7 @@
 package br.com.auconchegante.unit.infra.web.controller;
 
 import br.com.auconchegante.domain.model.User;
+import br.com.auconchegante.domain.port.incoming.ForgotPasswordUseCase;
 import br.com.auconchegante.domain.port.incoming.SignInUseCase;
 import br.com.auconchegante.domain.port.incoming.SignUpUseCase;
 import br.com.auconchegante.infra.web.controller.AuthController;
@@ -28,6 +29,10 @@ public class AuthControllerTest {
 
     @Mock
     SignUpUseCase signUpUseCase;
+
+
+    @Mock
+    ForgotPasswordUseCase forgotPasswordUseCase;
 
     @InjectMocks
     AuthController authController;
@@ -100,5 +105,22 @@ public class AuthControllerTest {
                 .andExpect(jsonPath("$.accessToken").value(TEST_ACCESS_TOKEN));
 
         verify(signUpUseCase).execute(user);
+    }
+
+    @Test()
+    @DisplayName("Should call forgot password use case and return void")
+    void forgotPassword() throws Exception {
+        String requestBody = """
+                {
+                    "email": "%s"
+                }
+                """.formatted(TEST_EMAIL);
+
+        mockMvc.perform(post("/api/auth/forgot-password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isNoContent());
+
+        verify(forgotPasswordUseCase).execute(TEST_EMAIL);
     }
 }
