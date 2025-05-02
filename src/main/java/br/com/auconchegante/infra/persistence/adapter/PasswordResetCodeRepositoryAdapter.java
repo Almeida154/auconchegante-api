@@ -31,6 +31,11 @@ public class PasswordResetCodeRepositoryAdapter implements PasswordResetCodeProt
     }
 
     @Override
+    public Optional<PasswordResetCode> findNotUsedByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
     public void markAsUsedByCode(String code) {
         jpaRepository.findByCode(code).ifPresent(passwordResetCodeEntity -> {
             passwordResetCodeEntity.setUsedAt(LocalDateTime.now());

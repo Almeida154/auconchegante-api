@@ -3,6 +3,7 @@ package br.com.auconchegante.application.service;
 import br.com.auconchegante.domain.exceptions.ConflictException;
 import br.com.auconchegante.domain.exceptions.NotFoundException;
 import br.com.auconchegante.domain.port.incoming.ForgotPasswordUseCase;
+import br.com.auconchegante.domain.port.outgoing.EmailProtocol;
 import br.com.auconchegante.domain.port.outgoing.persistence.PasswordResetCodeProtocol;
 import br.com.auconchegante.domain.port.outgoing.persistence.UserProtocol;
 import br.com.auconchegante.domain.port.outgoing.security.CodeGeneratorProtocol;
@@ -15,6 +16,7 @@ public class ForgotPasswordService implements ForgotPasswordUseCase {
     private final UserProtocol userProtocol;
     private final PasswordResetCodeProtocol passwordResetCodeProtocol;
     private final CodeGeneratorProtocol codeGeneratorProtocol;
+    private final EmailProtocol emailProtocol;
 
     @Override
     public void execute(String email) {
@@ -27,7 +29,6 @@ public class ForgotPasswordService implements ForgotPasswordUseCase {
         }
 
         String code = codeGeneratorProtocol.generate();
-
-        // Enviar e-mail
+        emailProtocol.sendPasswordResetCode(email, code);
     }
 }
