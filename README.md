@@ -1,6 +1,6 @@
-<center>
-  <img src="logo.png" width="200" />
-</center>
+<h1 align="center">
+  <img alt="Auconchegante logo" title="Auconchegante" src=".github/logo.svg" width="220px" />
+</h1>
 
 A pet-friendly hosting platform connecting pet owners with trusted hosts in a
 homely environment.
@@ -54,7 +54,7 @@ Documentation:
 
 ### Entity Relationship Diagram
 
-![ERD](/erd.png)
+![ERD](.github/erd.png)
 
 ### Architecture
 
