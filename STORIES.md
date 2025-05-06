@@ -62,7 +62,7 @@ That's a TODO list of all features by category.
     - ✅ PasswordResetCode object mapper
     - ✅ PasswordResetCode repository
     - ✅ Code generator
-    - [ ] Email delivery
+    - ✅ Email delivery
     - [ ] Use case
     - [ ] Controller & DTOs
     - [ ] Swagger documentation
