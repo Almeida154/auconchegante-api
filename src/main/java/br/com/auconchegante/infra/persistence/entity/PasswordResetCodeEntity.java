@@ -3,6 +3,7 @@ package br.com.auconchegante.infra.persistence.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -33,7 +33,6 @@ public class PasswordResetCodeEntity {
     private String email;
 
     @NotBlank
-    @Email
     @Size(min = 6, max = 6)
     @Column(nullable = false)
     private String code;
@@ -41,7 +40,7 @@ public class PasswordResetCodeEntity {
     @Column()
     private LocalDateTime usedAt;
 
-    @NotBlank
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime expiresAt;
 

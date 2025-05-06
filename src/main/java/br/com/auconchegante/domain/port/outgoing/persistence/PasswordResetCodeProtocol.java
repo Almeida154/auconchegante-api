@@ -9,7 +9,7 @@ public interface PasswordResetCodeProtocol {
 
     Optional<PasswordResetCode> findByCode(String code);
 
-    Optional<PasswordResetCode> findNotUsedByEmail(String email);
+    Optional<PasswordResetCode> findNotUsedOrExpiredByEmail(String email);
 
     void markAsUsedByCode(String code);
 }

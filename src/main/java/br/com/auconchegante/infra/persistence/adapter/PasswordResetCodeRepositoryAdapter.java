@@ -31,8 +31,9 @@ public class PasswordResetCodeRepositoryAdapter implements PasswordResetCodeProt
     }
 
     @Override
-    public Optional<PasswordResetCode> findNotUsedByEmail(String email) {
-        return Optional.empty();
+    public Optional<PasswordResetCode> findNotUsedOrExpiredByEmail(String email) {
+        return jpaRepository.findNotUsedOrExpiredByEmail(email)
+                .map(mapper::toDomain);
     }
 
     @Override

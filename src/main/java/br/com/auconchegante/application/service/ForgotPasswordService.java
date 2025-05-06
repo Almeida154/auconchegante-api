@@ -2,6 +2,7 @@ package br.com.auconchegante.application.service;
 
 import br.com.auconchegante.domain.exceptions.ConflictException;
 import br.com.auconchegante.domain.exceptions.NotFoundException;
+import br.com.auconchegante.domain.model.PasswordResetCode;
 import br.com.auconchegante.domain.model.User;
 import br.com.auconchegante.domain.port.incoming.ForgotPasswordUseCase;
 import br.com.auconchegante.domain.port.outgoing.EmailProtocol;
@@ -11,11 +12,14 @@ import br.com.auconchegante.domain.port.outgoing.security.CodeGeneratorProtocol;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class ForgotPasswordService implements ForgotPasswordUseCase {
+    private static final long PASSWORD_RESET_EXPIRATION_MINUTES = 30;
+
     private final UserProtocol userProtocol;
     private final PasswordResetCodeProtocol passwordResetCodeProtocol;
     private final CodeGeneratorProtocol codeGeneratorProtocol;
@@ -29,13 +33,23 @@ public class ForgotPasswordService implements ForgotPasswordUseCase {
             throw new NotFoundException("Unknown e-mail provided.");
         }
 
-        if (passwordResetCodeProtocol.findNotUsedByEmail(email).isPresent()) {
+        Optional<PasswordResetCode> existingValidCode = passwordResetCodeProtocol
+                .findNotUsedOrExpiredByEmail(email);
+
+        if (existingValidCode.isPresent()) {
             throw new ConflictException("A valid password reset code has already been sent to provided e-mail.");
         }
 
         String code = codeGeneratorProtocol.generate();
-        String name = user.get().getName().split("\\s+")[0];
 
+        PasswordResetCode passwordResetCode = new PasswordResetCode();
+        passwordResetCode.setCode(code);
+        passwordResetCode.setEmail(email);
+        passwordResetCode.setExpiresAt(LocalDateTime.now().plusMinutes(PASSWORD_RESET_EXPIRATION_MINUTES));
+        
+        passwordResetCodeProtocol.save(passwordResetCode);
+
+        String name = user.get().getName().split("\\s+")[0];
         emailProtocol.sendPasswordResetCode(email, name, code);
     }
 }
