@@ -151,7 +151,7 @@
                               text-align: center;
                             "
                           >
-                            Hi, ${name}, did you want to
+                            Hi, ${name}. Did you want to
                             <span>reset</span> your <span>password</span>?
                           </td>
                         </tr>
@@ -191,8 +191,9 @@
                               <p style="text-align: center">
                                 Someone (hopefully you) has asked us to
                                 <span>reset</span> the <span>password</span> for
-                                your Auconchegante account. Please use the code
-                                below to do so. If you didn't request this
+                                your Auconchegante account. Please, use the
+                                <span>${expirationMinutes} minutes</span> valid
+                                code below to do so. If you didn't request this
                                 <span>password reset</span>, you can go ahead
                                 and ignore this email!
                               </p>
