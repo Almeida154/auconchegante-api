@@ -26,17 +26,17 @@ public class EmailService implements EmailProtocol {
 
 
     @Override
-    public void sendPasswordResetCode(String email, String code) {
+    public void sendPasswordResetCode(String email, String name, String code) {
         try {
             MimeMessage msg = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(msg, true);
-            System.out.println("FROM EMAIL: " + fromEmail);
             helper.setFrom(fromEmail);
             helper.setTo(email);
             helper.setSubject("Auconchegante - Password Reset Code");
 
             Map<String, Object> model = new HashMap<>();
             model.put("code", code);
+            model.put("name", name);
             model.put("expirationMinutes", 30);
 
             Template template = configuration.getTemplate("password-reset.ftl");

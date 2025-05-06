@@ -2,6 +2,7 @@ package br.com.auconchegante.application.service;
 
 import br.com.auconchegante.domain.exceptions.ConflictException;
 import br.com.auconchegante.domain.exceptions.NotFoundException;
+import br.com.auconchegante.domain.model.User;
 import br.com.auconchegante.domain.port.incoming.ForgotPasswordUseCase;
 import br.com.auconchegante.domain.port.outgoing.EmailProtocol;
 import br.com.auconchegante.domain.port.outgoing.persistence.PasswordResetCodeProtocol;
@@ -9,6 +10,8 @@ import br.com.auconchegante.domain.port.outgoing.persistence.UserProtocol;
 import br.com.auconchegante.domain.port.outgoing.security.CodeGeneratorProtocol;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -20,7 +23,9 @@ public class ForgotPasswordService implements ForgotPasswordUseCase {
 
     @Override
     public void execute(String email) {
-        if (userProtocol.findByEmail(email).isEmpty()) {
+        Optional<User> user = userProtocol.findByEmail(email);
+
+        if (user.isEmpty()) {
             throw new NotFoundException("Unknown e-mail provided.");
         }
 
@@ -29,6 +34,8 @@ public class ForgotPasswordService implements ForgotPasswordUseCase {
         }
 
         String code = codeGeneratorProtocol.generate();
-        emailProtocol.sendPasswordResetCode(email, code);
+        String name = user.get().getName().split("\\s+")[0];
+
+        emailProtocol.sendPasswordResetCode(email, name, code);
     }
 }
