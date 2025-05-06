@@ -17,7 +17,6 @@ import java.io.StringReader;
 
 import static org.mockito.Mockito.*;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
