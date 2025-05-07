@@ -65,8 +65,16 @@ That's a TODO list of all features by category.
     - ✅ Email delivery
     - ✅ Use case
     - ✅ Controller & DTOs
-    - [ ] Swagger documentation
+    - ✅ Swagger documentation
     - ✅ Unit tests
+    - ✅ Integration tests
+
+- [ ] <b>Validate password reset code endpoint</b>
+
+    - [ ] Use case
+    - [ ] Controller & DTOs
+    - [ ] Swagger documentation
+    - [ ] Unit tests
     - [ ] Integration tests
 
 - [ ] <b>Reset password endpoint</b>
