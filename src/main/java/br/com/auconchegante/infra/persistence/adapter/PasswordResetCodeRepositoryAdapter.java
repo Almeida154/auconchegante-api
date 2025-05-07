@@ -37,6 +37,12 @@ public class PasswordResetCodeRepositoryAdapter implements PasswordResetCodeProt
     }
 
     @Override
+    public Optional<PasswordResetCode> findNotUsedOrExpiredByCode(String code) {
+        return jpaRepository.findNotUsedOrExpiredByCode(code)
+                .map(mapper::toDomain);
+    }
+
+    @Override
     public void markAsUsedByCode(String code) {
         jpaRepository.findByCode(code).ifPresent(passwordResetCodeEntity -> {
             passwordResetCodeEntity.setUsedAt(LocalDateTime.now());

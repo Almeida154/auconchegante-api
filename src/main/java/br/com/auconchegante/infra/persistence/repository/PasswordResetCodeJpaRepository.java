@@ -22,4 +22,16 @@ public interface PasswordResetCodeJpaRepository extends JpaRepository<PasswordRe
             nativeQuery = true
     )
     Optional<PasswordResetCodeEntity> findNotUsedOrExpiredByEmail(@Param("email") String email);
+
+    @Query(
+            value = """
+                    SELECT * FROM password_reset_codes
+                    WHERE code = :code
+                    AND used_at IS NULL
+                    AND expires_at > NOW()
+                    LIMIT 1;
+                    """,
+            nativeQuery = true
+    )
+    Optional<PasswordResetCodeEntity> findNotUsedOrExpiredByCode(@Param("code") String code);
 }

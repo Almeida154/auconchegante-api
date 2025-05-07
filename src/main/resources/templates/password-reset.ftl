@@ -25,7 +25,7 @@
       cellspacing="0"
       height="100%"
       width="100%"
-      style="padding: 80px"
+      style="padding: 40px"
     >
       <tbody>
         <tr>

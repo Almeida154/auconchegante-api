@@ -11,5 +11,7 @@ public interface PasswordResetCodeProtocol {
 
     Optional<PasswordResetCode> findNotUsedOrExpiredByEmail(String email);
 
+    Optional<PasswordResetCode> findNotUsedOrExpiredByCode(String code);
+
     void markAsUsedByCode(String code);
 }

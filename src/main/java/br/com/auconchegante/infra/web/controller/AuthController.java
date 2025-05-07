@@ -68,8 +68,8 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Generate password recovery code", description = "Send a generated code to provided e-mail")
-    @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = ValidatePasswordResetCodeResponse.class)))
+    @Operation(summary = "Validate code", description = "Check if a password reset code is valid")
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = ValidatePasswordResetCodeResponse.class)))
     @PostMapping("validate-password-reset-code")
     ResponseEntity<ValidatePasswordResetCodeResponse> validatePasswordResetCode(@Valid @RequestBody ValidatePasswordResetCodeRequest request) {
         boolean result = validatePasswordResetCodeUseCase.execute(request.getCode());

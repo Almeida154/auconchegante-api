@@ -18,7 +18,7 @@ public class ValidatePasswordResetCodeService implements ValidatePasswordResetCo
     @Override
     public boolean execute(String code) {
         Optional<PasswordResetCode> passwordResetCode =
-                passwordResetCodeProtocol.findByCode(code);
+                passwordResetCodeProtocol.findNotUsedOrExpiredByCode(code);
 
         return passwordResetCode.isPresent();
     }

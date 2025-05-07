@@ -93,4 +93,38 @@ public class PasswordResetCodeRepositoryAdapterTest {
         verify(jpaRepository).findByCode(TEST_CODE);
         verify(jpaRepository).save(passwordResetCodeEntity);
     }
+
+    @Test
+    @DisplayName("Should call findNotUsedOrExpiredByEmail")
+    void findNotUsedOrExpiredByEmail() {
+        PasswordResetCodeEntity passwordResetCodeEntity = new PasswordResetCodeEntity();
+        PasswordResetCode passwordResetCode = makePasswordResetCode();
+
+        when(jpaRepository.findNotUsedOrExpiredByEmail(TEST_EMAIL)).thenReturn(Optional.of(passwordResetCodeEntity));
+        when(mapper.toDomain(passwordResetCodeEntity)).thenReturn(passwordResetCode);
+
+        Optional<PasswordResetCode> result = repositoryAdapter.findNotUsedOrExpiredByEmail(TEST_EMAIL);
+
+        verify(jpaRepository).findNotUsedOrExpiredByEmail(TEST_EMAIL);
+        verify(mapper).toDomain(passwordResetCodeEntity);
+
+        assertThat(result).contains(passwordResetCode);
+    }
+
+    @Test
+    @DisplayName("Should call findNotUsedOrExpiredByCode")
+    void findNotUsedOrExpiredByCode() {
+        PasswordResetCodeEntity passwordResetCodeEntity = new PasswordResetCodeEntity();
+        PasswordResetCode passwordResetCode = makePasswordResetCode();
+
+        when(jpaRepository.findNotUsedOrExpiredByCode(TEST_CODE)).thenReturn(Optional.of(passwordResetCodeEntity));
+        when(mapper.toDomain(passwordResetCodeEntity)).thenReturn(passwordResetCode);
+
+        Optional<PasswordResetCode> result = repositoryAdapter.findNotUsedOrExpiredByCode(TEST_CODE);
+
+        verify(jpaRepository).findNotUsedOrExpiredByCode(TEST_CODE);
+        verify(mapper).toDomain(passwordResetCodeEntity);
+
+        assertThat(result).contains(passwordResetCode);
+    }
 }

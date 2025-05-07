@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -56,10 +55,12 @@ public class AuthControllerTest {
     private static final String TEST_PASSWORD = "password123";
     private static final String TEST_CPF = "00546117090";
     private static final String TEST_NAME = "John Doe";
+    private static final String TEST_CODE = "654321";
 
     @BeforeEach
     void setUp() {
         userRepository.deleteAll();
+        passwordResetCodeJpaRepository.deleteAll();
     }
 
     private UserEntity createTestUser() {
@@ -75,6 +76,15 @@ public class AuthControllerTest {
         user.setActive(true);
 
         return userRepository.save(user);
+    }
+
+    private PasswordResetCodeEntity createTestPasswordResetCode() {
+        PasswordResetCodeEntity passwordResetCode = new PasswordResetCodeEntity();
+        passwordResetCode.setEmail(TEST_EMAIL);
+        passwordResetCode.setCode(TEST_CODE);
+        passwordResetCode.setExpiresAt(LocalDateTime.now().plusMinutes(30));
+
+        return passwordResetCodeJpaRepository.save(passwordResetCode);
     }
 
     @Nested
@@ -217,15 +227,6 @@ public class AuthControllerTest {
     @Nested
     @DisplayName("forgot-password")
     class ForgotPassword {
-        private PasswordResetCodeEntity createTestPasswordResetCode() {
-            PasswordResetCodeEntity passwordResetCode = new PasswordResetCodeEntity();
-            passwordResetCode.setEmail(TEST_EMAIL);
-            passwordResetCode.setCode("123456");
-            passwordResetCode.setExpiresAt(LocalDateTime.now().plusMinutes(30));
-
-            return passwordResetCodeJpaRepository.save(passwordResetCode);
-        }
-
         private String makeRequestBody(String email) {
             return """
                     {
@@ -279,7 +280,7 @@ public class AuthControllerTest {
         }
 
         @Test
-        @DisplayName("Should return success when the code is generated")
+        @DisplayName("Should return no content when the code is generated")
         void forgotPasswordSuccess() throws Exception {
             createTestUser();
             doNothing().when(emailProtocol).sendPasswordResetCode(anyString(), anyString(), anyString());
@@ -290,6 +291,46 @@ public class AuthControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(requestBody))
                     .andExpect(status().isNoContent());
+        }
+    }
+
+    @Nested
+    @DisplayName("validate-password-reset-code")
+    class ValidatePasswordResetCode {
+        private String makeRequestBody(String code) {
+            return """
+                    {
+                        "code": "%s"
+                    }
+                    """.formatted(code);
+        }
+
+        @Test
+        @DisplayName("Should return success with false flag when not found")
+        void forgotPasswordEmailNotFound() throws Exception {
+            String requestBody = makeRequestBody(TEST_CODE);
+
+            mockMvc.perform(post("/api/auth/validate-password-reset-code")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.valid").value(false));
+        }
+
+        @Test
+        @DisplayName("Should return success with true flag when found")
+        void forgotPasswordConflict() throws Exception {
+            createTestPasswordResetCode();
+
+            String requestBody = makeRequestBody(TEST_CODE);
+
+            mockMvc.perform(post("/api/auth/validate-password-reset-code")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.valid").value(true));
         }
     }
 }
