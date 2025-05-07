@@ -4,6 +4,7 @@ import br.com.auconchegante.domain.model.User;
 import br.com.auconchegante.domain.port.incoming.ForgotPasswordUseCase;
 import br.com.auconchegante.domain.port.incoming.SignInUseCase;
 import br.com.auconchegante.domain.port.incoming.SignUpUseCase;
+import br.com.auconchegante.domain.port.incoming.ValidatePasswordResetCodeUseCase;
 import br.com.auconchegante.infra.web.dto.auth.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,6 +24,7 @@ public class AuthController {
     private final SignInUseCase signInUseCase;
     private final SignUpUseCase signUpUseCase;
     private final ForgotPasswordUseCase forgotPasswordUseCase;
+    private final ValidatePasswordResetCodeUseCase validatePasswordResetCodeUseCase;
 
     @Operation(summary = "Sign in user", description = "Authenticate user with email and password")
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SignInResponse.class)))
@@ -59,10 +61,21 @@ public class AuthController {
     }
 
     @Operation(summary = "Generate password recovery code", description = "Send a generated code to provided e-mail")
-    @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = SignUpResponse.class)))
+    @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = Void.class)))
     @PostMapping("forgot-password")
     ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
         forgotPasswordUseCase.execute(request.getEmail());
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Generate password recovery code", description = "Send a generated code to provided e-mail")
+    @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = ValidatePasswordResetCodeResponse.class)))
+    @PostMapping("validate-password-reset-code")
+    ResponseEntity<ValidatePasswordResetCodeResponse> validatePasswordResetCode(@Valid @RequestBody ValidatePasswordResetCodeRequest request) {
+        boolean result = validatePasswordResetCodeUseCase.execute(request.getCode());
+        return ResponseEntity.ok(ValidatePasswordResetCodeResponse
+                .builder()
+                .isValid(result)
+                .build());
     }
 }
