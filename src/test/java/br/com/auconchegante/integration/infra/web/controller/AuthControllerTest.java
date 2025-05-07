@@ -1,11 +1,13 @@
 package br.com.auconchegante.integration.infra.web.controller;
 
 import br.com.auconchegante.domain.port.outgoing.EmailProtocol;
+import br.com.auconchegante.domain.port.outgoing.security.EncryptionProtocol;
 import br.com.auconchegante.domain.type.UserRole;
 import br.com.auconchegante.infra.persistence.entity.PasswordResetCodeEntity;
 import br.com.auconchegante.infra.persistence.entity.UserEntity;
 import br.com.auconchegante.infra.persistence.repository.PasswordResetCodeJpaRepository;
 import br.com.auconchegante.infra.persistence.repository.UserJpaRepository;
+import br.com.auconchegante.infra.security.adapter.JasyptAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -17,6 +19,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +41,9 @@ public class AuthControllerTest {
             return mock(EmailProtocol.class);
         }
     }
+
+    @Autowired
+    private EncryptionProtocol encryptionProtocol;
 
     @Autowired
     private EmailProtocol emailProtocol;
@@ -67,7 +73,7 @@ public class AuthControllerTest {
         UserEntity user = new UserEntity();
         user.setName(TEST_NAME);
         user.setEmail(TEST_EMAIL);
-        user.setPassword(TEST_PASSWORD);
+        user.setPassword(encryptionProtocol.encrypt(TEST_PASSWORD));
         user.setCpf(TEST_CPF);
         user.setPhone("11999999999");
         user.setRole(UserRole.HOST);

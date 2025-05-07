@@ -5,6 +5,7 @@ import br.com.auconchegante.domain.exceptions.ForbiddenException;
 import br.com.auconchegante.domain.exceptions.NotFoundException;
 import br.com.auconchegante.domain.model.User;
 import br.com.auconchegante.domain.port.outgoing.persistence.UserProtocol;
+import br.com.auconchegante.domain.port.outgoing.security.EncryptionProtocol;
 import br.com.auconchegante.domain.port.outgoing.security.TokenProtocol;
 import br.com.auconchegante.domain.type.UserRole;
 import org.junit.jupiter.api.DisplayName;
@@ -28,6 +29,9 @@ public class SignInServiceTest {
 
     @Mock
     private TokenProtocol tokenProtocol;
+
+    @Mock
+    private EncryptionProtocol encryptionProtocol;
 
     @InjectMocks
     private SignInService signInService;
@@ -57,8 +61,13 @@ public class SignInServiceTest {
     @Test
     @DisplayName("Should call UserProtocol to find a user by e-mail")
     void callFindByEmail() {
+        User user = makeUser();
+
         when(userProtocol.findByEmail(TEST_EMAIL))
-                .thenReturn(Optional.of(makeUser()));
+                .thenReturn(Optional.of(user));
+
+        when(encryptionProtocol.decrypt(user.getPassword()))
+                .thenReturn(user.getPassword());
 
         signInService.execute(TEST_EMAIL, TEST_PASSWORD);
 
@@ -76,10 +85,31 @@ public class SignInServiceTest {
     }
 
     @Test
+    @DisplayName("Should call EncryptionProtocol to decrypt found user password to compare")
+    void callDecrypt() {
+        User user = makeUser();
+
+        when(userProtocol.findByEmail(TEST_EMAIL))
+                .thenReturn(Optional.of(user));
+
+        when(encryptionProtocol.decrypt(user.getPassword()))
+                .thenReturn(user.getPassword());
+
+        signInService.execute(TEST_EMAIL, TEST_PASSWORD);
+
+        verify(encryptionProtocol).decrypt(user.getPassword());
+    }
+
+    @Test
     @DisplayName("Should throw ForbiddenException when password is wrong")
     void throwForbiddenException() {
+        User user = makeUser(TEST_EMAIL, "different_password");
+
         when(userProtocol.findByEmail(TEST_EMAIL))
-                .thenReturn(Optional.of(makeUser(TEST_EMAIL, "different_password")));
+                .thenReturn(Optional.of(user));
+
+        when(encryptionProtocol.decrypt(user.getPassword()))
+                .thenReturn(user.getPassword());
 
         assertThatThrownBy(() -> {
             signInService.execute(TEST_EMAIL, TEST_PASSWORD);
@@ -95,6 +125,9 @@ public class SignInServiceTest {
 
         when(userProtocol.findByEmail(TEST_EMAIL))
                 .thenReturn(Optional.of(user));
+
+        when(encryptionProtocol.decrypt(user.getPassword()))
+                .thenReturn(user.getPassword());
 
         signInService.execute(TEST_EMAIL, TEST_PASSWORD);
 
