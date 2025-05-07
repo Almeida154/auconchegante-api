@@ -1,20 +1,29 @@
 package br.com.auconchegante.integration.infra.web.controller;
 
+import br.com.auconchegante.domain.port.outgoing.EmailProtocol;
 import br.com.auconchegante.domain.type.UserRole;
+import br.com.auconchegante.infra.persistence.entity.PasswordResetCodeEntity;
 import br.com.auconchegante.infra.persistence.entity.UserEntity;
+import br.com.auconchegante.infra.persistence.repository.PasswordResetCodeJpaRepository;
 import br.com.auconchegante.infra.persistence.repository.UserJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -23,12 +32,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @Transactional
 public class AuthControllerTest {
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public EmailProtocol emailProtocol() {
+            return mock(EmailProtocol.class);
+        }
+    }
+
+    @Autowired
+    private EmailProtocol emailProtocol;
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private UserJpaRepository userRepository;
+
+    @Autowired
+    private PasswordResetCodeJpaRepository passwordResetCodeJpaRepository;
 
     private static final String TEST_EMAIL = "test@example.com";
     private static final String TEST_PASSWORD = "password123";
@@ -189,6 +211,85 @@ public class AuthControllerTest {
         @Test
         @DisplayName("Should create user and return an access token")
         void signUpSuccess() throws Exception {
+        }
+    }
+
+    @Nested
+    @DisplayName("forgot-password")
+    class ForgotPassword {
+        private PasswordResetCodeEntity createTestPasswordResetCode() {
+            PasswordResetCodeEntity passwordResetCode = new PasswordResetCodeEntity();
+            passwordResetCode.setEmail(TEST_EMAIL);
+            passwordResetCode.setCode("123456");
+            passwordResetCode.setExpiresAt(LocalDateTime.now().plusMinutes(30));
+
+            return passwordResetCodeJpaRepository.save(passwordResetCode);
+        }
+
+        private String makeRequestBody(String email) {
+            return """
+                    {
+                        "email": "%s"
+                    }
+                    """.formatted(email);
+        }
+
+        @Test
+        @DisplayName("Should return bad request when an invalid e-mail is provided")
+        void forgotPasswordBadRequestForEmail() throws Exception {
+            String requestBody =
+                    makeRequestBody("invalid-email-format");
+
+            mockMvc.perform(post("/api/auth/forgot-password")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.message").value("Invalid e-mail."));
+        }
+
+        @Test
+        @DisplayName("Should return not found when an unknown e-mail is provided")
+        void forgotPasswordEmailNotFound() throws Exception {
+            String requestBody = makeRequestBody(TEST_EMAIL);
+
+            mockMvc.perform(post("/api/auth/forgot-password")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(status().isNotFound())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.message").value("Unknown e-mail provided."));
+        }
+
+        @Test
+        @DisplayName("Should return conflict when a valid code exists")
+        void forgotPasswordConflict() throws Exception {
+            createTestUser();
+            createTestPasswordResetCode();
+
+            String requestBody = makeRequestBody(TEST_EMAIL);
+
+            mockMvc.perform(post("/api/auth/forgot-password")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(status().isConflict())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.message")
+                            .value("A valid password reset code has already been sent to provided e-mail."));
+        }
+
+        @Test
+        @DisplayName("Should return success when the code is generated")
+        void forgotPasswordSuccess() throws Exception {
+            createTestUser();
+            doNothing().when(emailProtocol).sendPasswordResetCode(anyString(), anyString(), anyString());
+
+            String requestBody = makeRequestBody(TEST_EMAIL);
+
+            mockMvc.perform(post("/api/auth/forgot-password")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(status().isNoContent());
         }
     }
 }

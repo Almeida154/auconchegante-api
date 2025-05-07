@@ -46,7 +46,7 @@ public class ForgotPasswordService implements ForgotPasswordUseCase {
         passwordResetCode.setCode(code);
         passwordResetCode.setEmail(email);
         passwordResetCode.setExpiresAt(LocalDateTime.now().plusMinutes(PASSWORD_RESET_EXPIRATION_MINUTES));
-        
+
         passwordResetCodeProtocol.save(passwordResetCode);
 
         String name = user.get().getName().split("\\s+")[0];

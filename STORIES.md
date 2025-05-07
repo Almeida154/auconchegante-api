@@ -63,10 +63,10 @@ That's a TODO list of all features by category.
     - ✅ PasswordResetCode repository
     - ✅ Code generator
     - ✅ Email delivery
-    - [ ] Use case
-    - [ ] Controller & DTOs
+    - ✅ Use case
+    - ✅ Controller & DTOs
     - [ ] Swagger documentation
-    - [ ] Unit tests
+    - ✅ Unit tests
     - [ ] Integration tests
 
 - [ ] <b>Reset password endpoint</b>
