@@ -24,7 +24,6 @@ public class EmailService implements EmailProtocol {
     private final JavaMailSender mailSender;
     private final Configuration configuration;
 
-
     @Override
     public void sendPasswordResetCode(String email, String name, String code) {
         try {

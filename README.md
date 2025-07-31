@@ -84,7 +84,8 @@ cd auconchegante-api
 mvn install
 
 # Set up environment variables
-cp .env.example .env
+cp src/main/resources/application.yaml.example src/main/resources/application.yaml
+cp src/main/resources/db/flyway.properties.example src/main/resources/db/flyway.properties
 
 # Start containers
 docker-compose up -d
@@ -122,7 +123,7 @@ auconchegante-api/
 │           └── dto/             # DTOs
 ```
 
-### Commit Standards
+## Commit Standards
 
 ```
 feat: new feature

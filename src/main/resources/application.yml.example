@@ -16,9 +16,24 @@ spring:
       enabled: true
     remote:
       secret: any-secret
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:your@mail.com}
+
+    # You can generate a Google App Password in https://myaccount.google.com/u/1/apppasswords.
+    # It is a 16 characters password, like the pattern below.
+    password: ${MAIL_PASSWORD:xxxx xxxx xxxx xxxx}
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 jwt:
-  secret: ${JWT_SECRET:Any256BytesToken}
+  secret: ${JWT_SECRET:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855}
   expiration: ${JWT_EXPIRATION:86400000}
 
 encryption:
