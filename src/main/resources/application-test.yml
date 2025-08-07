@@ -17,6 +17,7 @@ spring:
   freemarker:
     template-loader-path: classpath:/templates/
     suffix: .ftl
+
   mail:
     host: smtp.gmail.com
     port: 587

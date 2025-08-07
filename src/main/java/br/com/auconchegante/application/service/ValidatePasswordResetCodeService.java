@@ -11,8 +11,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class ValidatePasswordResetCodeService implements ValidatePasswordResetCodeUseCase {
-    private static final long PASSWORD_RESET_EXPIRATION_MINUTES = 30;
-
     private final PasswordResetCodeProtocol passwordResetCodeProtocol;
 
     @Override
