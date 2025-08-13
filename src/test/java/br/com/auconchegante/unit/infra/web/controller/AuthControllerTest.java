@@ -40,7 +40,7 @@ public class AuthControllerTest {
     private MockMvc mockMvc;
 
     private static final String TEST_EMAIL = "test@example.com";
-    private static final String TEST_PASSWORD = "password123";
+    private static final String TEST_PASSWORD = "Password123#";
     private static final String TEST_ACCESS_TOKEN = "test.jwt.token";
 
     private User makeUser() {

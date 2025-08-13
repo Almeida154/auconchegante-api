@@ -1,8 +1,10 @@
 package br.com.auconchegante.infra.web.dto.auth;
 
+import br.com.auconchegante.domain.validation.PasswordConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Data
@@ -19,5 +21,7 @@ public class SignUpRequest {
     private String email;
 
     @NotBlank(message = "Password is required.")
+    @Length(min = 8, message = "Password must contain at least 8 characters.")
+    @PasswordConstraint
     private String password;
 }

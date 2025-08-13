@@ -58,7 +58,7 @@ public class AuthControllerTest {
     private PasswordResetCodeJpaRepository passwordResetCodeJpaRepository;
 
     private static final String TEST_EMAIL = "test@example.com";
-    private static final String TEST_PASSWORD = "password123";
+    private static final String TEST_PASSWORD = "Password123#";
     private static final String TEST_CPF = "00546117090";
     private static final String TEST_NAME = "John Doe";
     private static final String TEST_CODE = "654321";

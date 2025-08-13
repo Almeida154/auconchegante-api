@@ -1,5 +1,6 @@
 package br.com.auconchegante.infra.web.dto.auth;
 
+import br.com.auconchegante.domain.validation.PasswordConstraint;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,8 @@ public class UpdateForgottenPasswordRequest {
     @Length(min = 6, max = 6, message = "Invalid code.")
     private String code;
 
-    @NotBlank(message = "New password is required.")
+    @NotBlank(message = "Password is required.")
+    @Length(min = 8, message = "Password must contain at least 8 characters.")
+    @PasswordConstraint
     private String newPassword;
 }
