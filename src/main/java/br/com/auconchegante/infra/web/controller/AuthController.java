@@ -79,7 +79,8 @@ public class AuthController {
                 .build());
     }
 
-    @Operation(summary = "Receive and update an account password")
+    @Operation(summary = "Update an account password", description = "Receive a new password and update user account")
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = Void.class)))
     @PostMapping("update-forgotten-password")
     ResponseEntity<Void> updateForgottenPasswordResponse(@Valid @RequestBody UpdateForgottenPasswordRequest request) {
         updateForgottenPasswordUseCase.execute(request.getCode(), request.getNewPassword());
