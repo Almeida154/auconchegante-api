@@ -71,17 +71,17 @@ That's a TODO list of all features by category.
 
 - [ ] <b>Validate password reset code endpoint</b>
 
-    - [ ] Use case
-    - [ ] Controller & DTOs
-    - [ ] Swagger documentation
-    - [ ] Unit tests
+    - ✅ Use case
+    - ✅ Controller & DTOs
+    - ✅ Swagger documentation
+    - ✅ Unit tests
     - [ ] Integration tests
 
 - [ ] <b>Reset password endpoint</b>
 
-    - [ ] Use case
-    - [ ] Controller & DTOs
-    - [ ] Swagger documentation
+    - ✅ Use case
+    - ✅ Controller & DTOs
+    - ✅ Swagger documentation
     - [ ] Unit tests
     - [ ] Integration tests
 

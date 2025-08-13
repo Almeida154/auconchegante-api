@@ -1,10 +1,7 @@
 package br.com.auconchegante.infra.web.controller;
 
 import br.com.auconchegante.domain.model.User;
-import br.com.auconchegante.domain.port.incoming.ForgotPasswordUseCase;
-import br.com.auconchegante.domain.port.incoming.SignInUseCase;
-import br.com.auconchegante.domain.port.incoming.SignUpUseCase;
-import br.com.auconchegante.domain.port.incoming.ValidatePasswordResetCodeUseCase;
+import br.com.auconchegante.domain.port.incoming.*;
 import br.com.auconchegante.infra.web.dto.auth.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,6 +22,7 @@ public class AuthController {
     private final SignUpUseCase signUpUseCase;
     private final ForgotPasswordUseCase forgotPasswordUseCase;
     private final ValidatePasswordResetCodeUseCase validatePasswordResetCodeUseCase;
+    private final UpdateForgottenPasswordUseCase updateForgottenPasswordUseCase;
 
     @Operation(summary = "Sign in user", description = "Authenticate user with email and password")
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SignInResponse.class)))
@@ -40,6 +38,8 @@ public class AuthController {
     }
 
     // TODO: Create endpoint for sign in a new host user. We gonna need to update its ROLE to HOST
+
+    // TODO: Improve password validation (like format, size, special characters etc.)
 
     @Operation(summary = "Sign up user", description = "Create and authenticate a new user")
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SignUpResponse.class)))
@@ -77,5 +77,12 @@ public class AuthController {
                 .builder()
                 .isValid(result)
                 .build());
+    }
+
+    @Operation(summary = "Receive and update an account password")
+    @PostMapping("update-forgotten-password")
+    ResponseEntity<Void> updateForgottenPasswordResponse(@Valid @RequestBody UpdateForgottenPasswordRequest request) {
+        updateForgottenPasswordUseCase.execute(request.getCode(), request.getNewPassword());
+        return ResponseEntity.noContent().build();
     }
 }
