@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/auconchegante}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: none
+  devtools:
+    restart:
+      enabled: true
+      poll-interval: 1s
+      quiet-period: 400ms
+      additional-exclude: static/**,public/**
+    livereload:
+      enabled: true
+    remote:
+      secret: any-secret
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:your@mail.com}
+
+    # You can generate a Google App Password in https://myaccount.google.com/u/1/apppasswords.
+    # It is a 16 characters password, like the pattern below.
+    password: ${MAIL_PASSWORD:qvkk ilza xfbq olel}
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+jwt:
+  secret: ${JWT_SECRET:2f4f6396de2f6b506d1edfdc318dc0b6671bdc0521e0387102658e71a538d632}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+encryption:
+    secret: ${ENCRYPTION_SECRET:auconchegante-2025}
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html

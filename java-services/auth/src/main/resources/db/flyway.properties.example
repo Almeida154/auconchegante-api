@@ -1,0 +1,6 @@
+flyway.url=jdbc:postgresql://localhost:5432/auconchegante
+flyway.user=postgres
+flyway.password=postgres
+flyway.locations=classpath:db/migration
+flyway.baselineOnMigrate=true
+flyway.validateMigrationNaming=true
