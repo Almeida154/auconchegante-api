@@ -21,7 +21,7 @@
     <option name="TEST_SEARCH_SCOPE">
       <value defaultName="wholeProject" />
     </option>
-    <dir value="$PROJECT_DIR$/auth/src/test/java/br/com/auconchegante" />
+    <dir value="$PROJECT_DIR$/src/test/java/br/com/auconchegante/auth" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

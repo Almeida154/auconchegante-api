@@ -45,6 +45,7 @@ public class EmailService implements EmailProtocol {
             mailSender.send(msg);
 
         } catch (Exception e) {
+            // TODO: If this goes wrong, then we need to delete the last code generated.
             throw new InternalException("Error sending verification code.");
         }
     }

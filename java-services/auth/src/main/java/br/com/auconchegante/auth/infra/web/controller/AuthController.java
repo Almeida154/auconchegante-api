@@ -27,7 +27,7 @@ public class AuthController {
     private final SignUpUseCase signUpUseCase;
     private final ForgotPasswordUseCase forgotPasswordUseCase;
     private final ValidatePasswordResetCodeUseCase validatePasswordResetCodeUseCase;
-//    private final UpdateForgottenPasswordUseCase updateForgottenPasswordUseCase;
+    private final UpdateForgottenPasswordUseCase updateForgottenPasswordUseCase;
 
     @Operation(summary = "Sign in user", description = "Authenticate user with email and password")
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SignInResponse.class)))
@@ -42,9 +42,9 @@ public class AuthController {
                 .build());
     }
 
-    // TODO: Create endpoint for sign in a new host user. We gonna need to update its ROLE to HOST
+    // TODO: Create endpoint for sign in a new host user. We gonna need to update its ROLE to HOST.
 
-    // TODO: Improve password validation (like format, size, special characters etc.)
+    // TODO: Improve password validation (like format, size, special characters etc.).
 
     @Operation(summary = "Sign up user", description = "Create and authenticate a new user")
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SignUpResponse.class)))
@@ -84,11 +84,11 @@ public class AuthController {
                 .build());
     }
 
-//    @Operation(summary = "Update an account password", description = "Receive a new password and update user account")
-//    @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = Void.class)))
-//    @PostMapping("update-forgotten-password")
-//    ResponseEntity<Void> updateForgottenPasswordResponse(@Valid @RequestBody UpdateForgottenPasswordRequest request) {
-//        updateForgottenPasswordUseCase.execute(request.getCode(), request.getNewPassword());
-//        return ResponseEntity.noContent().build();
-//    }
+    @Operation(summary = "Update an account password", description = "Receive a new password and update user account")
+    @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = Void.class)))
+    @PostMapping("update-forgotten-password")
+    ResponseEntity<Void> updateForgottenPasswordResponse(@Valid @RequestBody UpdateForgottenPasswordRequest request) {
+        updateForgottenPasswordUseCase.execute(request.getCode(), request.getNewPassword());
+        return ResponseEntity.noContent().build();
+    }
 }
