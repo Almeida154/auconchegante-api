@@ -1,5 +1,6 @@
 package br.com.auconchegante.auth.application.service;
 
+import br.com.auconchegante.auth.domain.exceptions.ForbiddenException;
 import br.com.auconchegante.auth.domain.exceptions.NotFoundException;
 import br.com.auconchegante.auth.domain.model.PasswordResetCode;
 import br.com.auconchegante.auth.domain.model.User;
@@ -25,7 +26,7 @@ public class UpdateForgottenPasswordService implements UpdateForgottenPasswordUs
         Optional<PasswordResetCode> passwordResetCode = passwordResetCodeProtocol.findNotUsedOrExpiredByCode(code);
 
         if (passwordResetCode.isEmpty())
-            throw new NotFoundException("Already used or expired code provided.");
+            throw new ForbiddenException("Already used or expired code provided.");
 
         Optional<User> user = userProtocol.findByEmail(passwordResetCode.get().getEmail());
 
