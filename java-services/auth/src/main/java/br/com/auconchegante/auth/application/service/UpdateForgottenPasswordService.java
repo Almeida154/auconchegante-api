@@ -26,7 +26,7 @@ public class UpdateForgottenPasswordService implements UpdateForgottenPasswordUs
         Optional<PasswordResetCode> passwordResetCode = passwordResetCodeProtocol.findNotUsedOrExpiredByCode(code);
 
         if (passwordResetCode.isEmpty())
-            throw new ForbiddenException("Already used or expired code provided.");
+            throw new ForbiddenException("Invalid code provided.");
 
         Optional<User> user = userProtocol.findByEmail(passwordResetCode.get().getEmail());
 

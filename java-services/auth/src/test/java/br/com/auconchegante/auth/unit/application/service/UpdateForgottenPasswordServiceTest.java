@@ -78,7 +78,7 @@ public class UpdateForgottenPasswordServiceTest {
 
             updateForgottenPasswordService.execute(TEST_CODE, TEST_NEW_PASSWORD);
         }).isInstanceOf(ForbiddenException.class)
-                .hasMessage("Already used or expired code provided.");
+                .hasMessage("Invalid code provided.");
     }
 
     @Test

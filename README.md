@@ -58,10 +58,17 @@ Documentation:
 
 ### Architecture
 
-- Ports and Adapters Architecture
+This project have Java and Node services. Java is used for the main services, like Authentication, Booking
+and Payment. While Node is used for secondary services, such as Notification. All services are built
+with Clean Architecture or Hexagonal Architecture.
+
+PS.: I am using a monorepo only because it is a personal project to practice back-end skill. Soon a
+client-side will consume this API, probably a Flutter app.
+
+- Ports and Adapters Architecture / Clean Architecture
 - Domain-Driven Design
 - REST APIs
-- WebSocket for real-time communication
+- WebSocket
 
 ## Prerequisites
 
@@ -73,55 +80,38 @@ Documentation:
 
 ## Getting Started
 
+### 1. Clone the repository
+
 ```bash
-# Clone the repository
 git clone https://github.com/almeida154/auconchegante-api.git
+```
 
-# Navigate to directory
+### 2. Navigate to directory
+
+```bash
 cd auconchegante-api
-
-# Install dependencies
-mvn install
-
-# Set up environment variables
-cp src/main/resources/application.yaml.example src/main/resources/application.yaml
-cp src/main/resources/db/flyway.properties.example src/main/resources/db/flyway.properties
-
-# Start containers
-docker-compose up -d
-
-# Run migrations
-mvn flyway:migrate
-
-# Run the project
-mvn spring-boot:run
 ```
 
-## Project Structure
+### 3. Start database
 
+```bash
+docker-compose up -d postgres
 ```
-auconchegante-api/
-├── src/main/java/com/auconchegante-api/
-│   ├── domain/                  # Domain Layer (inside hexagon)
-│   │   ├── model/               # Domain entities
-│   │   ├── service/             # Domain services
-│   │   └── port/                # Ports (interfaces)
-│   │       ├── incoming/        # Input ports (use cases)
-│   │       └── outgoing/        # Output ports
-│   │
-│   ├── application/             # Application Layer
-│   │   └── service/             # Application services
-│   │
-│   └── infrastructure/          # Infrastructure Layer (outside hexagon)
-│       ├── persistence/         # Database adapters
-│       │   ├── entity/          # JPA entities
-│       │   ├── repository/      # Spring repositories
-│       │   └── mapper/          # Entity mappers
-│       ├── security/            # Security config
-│       └── web/                 # Web adapters
-│           ├── controller/      # REST controllers
-│           └── dto/             # DTOs
+
+### 4. Run migrations (once) [here](./java-services/common/README.md)
+
+### 5. Start individual services like [Auth](./java-services/auth/README.md) or run all of them at once
+
+```bash
+sh scripts/run-all-services.sh
 ```
+
+## Stories
+
+There is an organization about the things to do in this project. It's separate by service or general tasks.
+
+- [General tasks](STORIES.md)
+- [Auth service tasks](./java-services/auth/STORIES.md)
 
 ## Commit Standards
 
