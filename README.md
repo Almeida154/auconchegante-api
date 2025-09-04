@@ -95,7 +95,7 @@ cd auconchegante-api
 ### 3. Start database
 
 ```bash
-docker-compose up -d postgres
+docker-compose up -d db
 ```
 
 ### 4. Run migrations (once) [here](./java-services/common/README.md)

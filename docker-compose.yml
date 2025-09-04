@@ -12,17 +12,24 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  # auth-service:
-  #   image: maven:3.9-openjdk-21
-  #   ports:
-  #     - "8080:8080"
-  #   volumes:
-  #     - ./java-services:/workspace/app
-  #     - maven_cache:/root/.m2
-  #   working_dir: /workspace/app/auth
-  #   command: mvn spring-boot:run
-  #   depends_on:
-  #     - db
+  auth-service:
+    build:
+      context: ./java-services/auth
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    volumes:
+      - ./java-services:/workspace/app
+      - ./java-services/auth/src/main/resources/application.yml:/workspace/app/auth/src/main/resources/application.yml
+      - maven_cache:/root/.m2
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/auconchegante
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    working_dir: /workspace/app/auth
+    depends_on:
+      - db
 
 volumes:
   maven_cache:
