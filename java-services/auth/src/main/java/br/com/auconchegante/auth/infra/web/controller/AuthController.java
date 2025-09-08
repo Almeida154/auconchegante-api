@@ -15,9 +15,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Log4j2
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/auth")
@@ -33,6 +35,8 @@ public class AuthController {
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SignInResponse.class)))
     @PostMapping("sign-in")
     ResponseEntity<SignInResponse> signIn(@Valid @RequestBody SignInRequest request) {
+        log.info("Called sign-in endpoint with: {}", request);
+
         SignInUseCase.Result result = signInUseCase
                 .execute(request.getEmail(), request.getPassword());
 
@@ -50,6 +54,8 @@ public class AuthController {
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SignUpResponse.class)))
     @PostMapping("sign-up")
     ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request) {
+        log.info("Called sign-up endpoint with: {}", request);
+
         User user = new User();
 
         user.setName(request.getName());
@@ -69,6 +75,8 @@ public class AuthController {
     @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = Void.class)))
     @PostMapping("forgot-password")
     ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        log.info("Called forgot-password endpoint with: {}", request);
+
         forgotPasswordUseCase.execute(request.getEmail());
         return ResponseEntity.noContent().build();
     }
@@ -77,6 +85,8 @@ public class AuthController {
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = ValidatePasswordResetCodeResponse.class)))
     @PostMapping("validate-password-reset-code")
     ResponseEntity<ValidatePasswordResetCodeResponse> validatePasswordResetCode(@Valid @RequestBody ValidatePasswordResetCodeRequest request) {
+        log.info("Called validate-password-reset-code endpoint with: {}", request);
+
         boolean result = validatePasswordResetCodeUseCase.execute(request.getCode());
         return ResponseEntity.ok(ValidatePasswordResetCodeResponse
                 .builder()
@@ -88,6 +98,8 @@ public class AuthController {
     @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = Void.class)))
     @PostMapping("update-forgotten-password")
     ResponseEntity<Void> updateForgottenPasswordResponse(@Valid @RequestBody UpdateForgottenPasswordRequest request) {
+        log.info("Called update-forgotten-password endpoint with: {}", request);
+
         updateForgottenPasswordUseCase.execute(request.getCode(), request.getNewPassword());
         return ResponseEntity.noContent().build();
     }

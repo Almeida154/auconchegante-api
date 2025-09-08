@@ -8,8 +8,10 @@ import br.com.auconchegante.auth.domain.port.outgoing.persistence.UserProtocol;
 import br.com.auconchegante.auth.domain.port.outgoing.security.EncryptionProtocol;
 import br.com.auconchegante.auth.domain.port.outgoing.security.TokenProtocol;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class SignInService implements SignInUseCase {
@@ -19,6 +21,8 @@ public class SignInService implements SignInUseCase {
 
     @Override
     public Result execute(String email, String password) {
+        log.info("Signing in an user with email: {}", email);
+
         User user = userProtocol.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found."));
 

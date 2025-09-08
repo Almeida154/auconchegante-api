@@ -9,8 +9,10 @@ import br.com.auconchegante.auth.domain.port.outgoing.security.EncryptionProtoco
 import br.com.auconchegante.auth.domain.port.outgoing.security.TokenProtocol;
 import br.com.auconchegante.auth.domain.type.UserRole;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class SignUpService implements SignUpUseCase {
@@ -20,6 +22,8 @@ public class SignUpService implements SignUpUseCase {
 
     @Override
     public Result execute(User user) {
+        log.info("Signing up a new user with email: {}", user.getEmail());
+
         if (userProtocol.findByEmail(user.getEmail()).isPresent())
             throw new ConflictException("E-mail already in use.");
 

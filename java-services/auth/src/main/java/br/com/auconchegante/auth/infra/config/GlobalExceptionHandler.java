@@ -3,6 +3,7 @@ package br.com.auconchegante.auth.infra.config;
 import br.com.auconchegante.auth.domain.exceptions.*;
 import br.com.auconchegante.auth.domain.exceptions.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
-
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

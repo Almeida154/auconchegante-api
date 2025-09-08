@@ -9,11 +9,13 @@ import br.com.auconchegante.auth.domain.port.outgoing.persistence.PasswordResetC
 import br.com.auconchegante.auth.domain.port.outgoing.persistence.UserProtocol;
 import br.com.auconchegante.auth.domain.port.outgoing.security.EncryptionProtocol;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class UpdateForgottenPasswordService implements UpdateForgottenPasswordUseCase {
@@ -23,6 +25,8 @@ public class UpdateForgottenPasswordService implements UpdateForgottenPasswordUs
 
     @Override
     public void execute(String code, String newPassword) {
+        log.info("Updating password for password reset code: {}", code);
+
         Optional<PasswordResetCode> passwordResetCode = passwordResetCodeProtocol.findNotUsedOrExpiredByCode(code);
 
         if (passwordResetCode.isEmpty())

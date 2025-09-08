@@ -4,10 +4,12 @@ import br.com.auconchegante.auth.domain.model.PasswordResetCode;
 import br.com.auconchegante.auth.domain.port.incoming.ValidatePasswordResetCodeUseCase;
 import br.com.auconchegante.auth.domain.port.outgoing.persistence.PasswordResetCodeProtocol;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class ValidatePasswordResetCodeService implements ValidatePasswordResetCodeUseCase {
@@ -15,6 +17,8 @@ public class ValidatePasswordResetCodeService implements ValidatePasswordResetCo
 
     @Override
     public boolean execute(String code) {
+        log.info("Validating password reset code: {}", code);
+
         Optional<PasswordResetCode> passwordResetCode =
                 passwordResetCodeProtocol.findNotUsedOrExpiredByCode(code);
 

@@ -6,6 +6,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,6 +16,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class EmailService implements EmailProtocol {
@@ -27,6 +29,8 @@ public class EmailService implements EmailProtocol {
     @Override
     public void sendPasswordResetCode(String email, String name, String code) {
         try {
+            log.info("Sending password reset code for {} with code {}", email, code);
+
             MimeMessage msg = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(msg, true);
             helper.setFrom(fromEmail);
@@ -46,6 +50,7 @@ public class EmailService implements EmailProtocol {
 
         } catch (Exception e) {
             // TODO: If this goes wrong, then we need to delete the last code generated.
+            log.error("An error occurred sending password reset code", e);
             throw new InternalException("Error sending verification code.");
         }
     }

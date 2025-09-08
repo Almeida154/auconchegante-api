@@ -10,11 +10,13 @@ import br.com.auconchegante.auth.domain.port.outgoing.persistence.PasswordResetC
 import br.com.auconchegante.auth.domain.port.outgoing.persistence.UserProtocol;
 import br.com.auconchegante.auth.domain.port.outgoing.security.CodeGeneratorProtocol;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class ForgotPasswordService implements ForgotPasswordUseCase {
@@ -27,6 +29,8 @@ public class ForgotPasswordService implements ForgotPasswordUseCase {
 
     @Override
     public void execute(String email) {
+        log.info("Handling forgot password for email: {}", email);
+
         Optional<User> user = userProtocol.findByEmail(email);
 
         if (user.isEmpty()) {
