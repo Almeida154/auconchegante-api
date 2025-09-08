@@ -34,7 +34,7 @@
   - ✅ Unit tests
   - ✅ Integration tests
 
-- [ ] <b>Forgot password endpoint</b>
+- ✅ <b>Forgot password endpoint</b>
 
   - ✅ PasswordResetCodes migration
   - ✅ PasswordResetCode domain model and entity
@@ -48,21 +48,21 @@
   - ✅ Unit tests
   - ✅ Integration tests
 
-- [ ] <b>Validate password reset code endpoint</b>
+- ✅ <b>Validate password reset code endpoint</b>
 
   - ✅ Use case
   - ✅ Controller & DTOs
   - ✅ Swagger documentation
   - ✅ Unit tests
-  - [ ] Integration tests
+  - ✅ Integration tests
 
-- [ ] <b>Reset password endpoint</b>
+- ✅ <b>Reset password endpoint</b>
 
   - ✅ Use case
   - ✅ Controller & DTOs
   - ✅ Swagger documentation
-  - [ ] Unit tests
-  - [ ] Integration tests
+  - ✅ Unit tests
+  - ✅ Integration tests
 
 - [ ] <b>Refresh token endpoint</b>
 

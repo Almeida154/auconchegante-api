@@ -1,9 +1,7 @@
 package br.com.auconchegante.auth.unit.infra.web.controller;
 
 import br.com.auconchegante.auth.domain.model.User;
-import br.com.auconchegante.auth.domain.port.incoming.ForgotPasswordUseCase;
-import br.com.auconchegante.auth.domain.port.incoming.SignInUseCase;
-import br.com.auconchegante.auth.domain.port.incoming.SignUpUseCase;
+import br.com.auconchegante.auth.domain.port.incoming.*;
 import br.com.auconchegante.auth.infra.web.controller.AuthController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,9 +28,14 @@ public class AuthControllerTest {
     @Mock
     SignUpUseCase signUpUseCase;
 
-
     @Mock
     ForgotPasswordUseCase forgotPasswordUseCase;
+
+    @Mock
+    ValidatePasswordResetCodeUseCase validatePasswordResetCodeUseCase;
+
+    @Mock
+    UpdateForgottenPasswordUseCase updateForgottenPasswordUseCase;
 
     @InjectMocks
     AuthController authController;
@@ -122,5 +125,45 @@ public class AuthControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(forgotPasswordUseCase).execute(TEST_EMAIL);
+    }
+
+    @Test()
+    @DisplayName("Should call validate password reset code use case and return a result")
+    void passwordResetCode() throws Exception {
+        String code = "123456";
+
+        String requestBody = """
+                {
+                    "code": "%s"
+                }
+                """.formatted(code);
+
+        mockMvc.perform(post("/api/auth/validate-password-reset-code")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.valid").value(false));
+
+        verify(validatePasswordResetCodeUseCase).execute(code);
+    }
+
+    @Test()
+    @DisplayName("Should call update forgotten password use case and return a result")
+    void updateForgottenPassword() throws Exception {
+        String code = "123456";
+
+        String requestBody = """
+                {
+                    "code": "%s",
+                    "newPassword": "%s"
+                }
+                """.formatted(code, "anyNewPassword@");
+
+        mockMvc.perform(post("/api/auth/update-forgotten-password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isNoContent());
+
+        verify(updateForgottenPasswordUseCase).execute(code, "anyNewPassword@");
     }
 }
