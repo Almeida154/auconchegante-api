@@ -35,3 +35,11 @@ mvn install
 # Run the project
 mvn spring-boot:run
 ```
+
+```bash
+# Copy the flyway file with envs to run migrations
+cp src/main/resources/db/flyway.properties.example src/main/resources/db/flyway.properties
+
+# Run migrations
+mvn flyway:migrate
+```

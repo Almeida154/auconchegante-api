@@ -1,6 +1,6 @@
-cd java-services/auth
+cd auth
 mvn spring-boot:run
 AUTH_PID=$!
-cd ../..
+cd ..
 
 echo "Services running on PIDs: AUTH - $AUTH_PID"

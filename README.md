@@ -92,19 +92,15 @@ git clone https://github.com/almeida154/auconchegante-api.git
 cd auconchegante-api
 ```
 
-### 3. Start database
+### 3. Start individual databases like Auth
 
 ```bash
-docker-compose up -d db
+docker-compose up -d auth-db
 ```
 
-### 4. Run migrations (once) [here](./java-services/common/README.md)
+### 4. Run migrations of individual services like [Auth](./auth/README.md)
 
-### 5. Start individual services like [Auth](./java-services/auth/README.md) or run all of them at once
-
-```bash
-sh scripts/run-all-services.sh
-```
+### 5. Start individual services like [Auth](./auth/README.md)
 
 ## Stories
 
