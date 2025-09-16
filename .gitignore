@@ -36,3 +36,5 @@ build/
 
 **/application.yml
 **/flyway.properties
+
+*.log

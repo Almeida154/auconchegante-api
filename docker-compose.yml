@@ -3,11 +3,10 @@ version: "3.8"
 services:
   auth-db:
     image: postgres:15-alpine
-    container_name: auconchegante-auth-db
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=auconchegante_auth
+      - POSTGRES_DB=auth_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
@@ -17,11 +16,10 @@ services:
 
   booking-db:
     image: postgres:15-alpine
-    container_name: auconchegante-booking-db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
-      - POSTGRES_DB=auconchegante_booking
+      - POSTGRES_DB=booking_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
@@ -30,7 +28,6 @@ services:
       - booking-network
 
   auth-api:
-    container_name: auconchegante-auth-api
     build:
       context: ./auth
       dockerfile: Dockerfile
@@ -44,7 +41,7 @@ services:
       - ./auth/src/main/resources/application.yml:/workspace/app/auth/src/main/resources/application.yml
       - maven_cache:/root/.m2
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://auth-db:5432/auconchegante_auth
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://auth-db:5432/auth_db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
     working_dir: /workspace/app/auth

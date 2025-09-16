@@ -1,4 +1,4 @@
-flyway.url=jdbc:postgresql://localhost:5432/auconchegante
+flyway.url=jdbc:postgresql://localhost:5432/auconchegante-auth-db
 flyway.user=postgres
 flyway.password=postgres
 flyway.locations=classpath:db/migration
