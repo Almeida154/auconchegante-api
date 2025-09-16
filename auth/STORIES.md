@@ -64,10 +64,6 @@
   - ✅ Unit tests
   - ✅ Integration tests
 
-- [ ] <b>Refresh token endpoint</b>
-
-  - Idk yet
-
 - [ ] <b>Auth Middleware</b>
 
   - [ ] Auth validator
